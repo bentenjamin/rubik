@@ -244,45 +244,46 @@ class Cube:
         self.rot_face_prime(4)
         c = self.cube
 
-        tempora = c[2][2]
-        c[2][2] = c[3][2]
-        c[3][2] = c[0][2]
-        c[0][2] = c[1][2]
-        c[1][2] = tempora
+        tempora = c[1][2]
+        c[1][2] = c[0][2]
+        c[0][2] = c[3][2]
+        c[3][2] = c[2][2]
+        c[2][2] = tempora
 
-        tempora = c[2][1]
-        c[2][1] = c[3][1]
-        c[3][1] = c[0][1]
-        c[0][1] = c[1][1]
-        c[1][1] = tempora
+        tempora = c[1][1]
+        c[1][1] = c[0][1]
+        c[0][1] = c[3][1]
+        c[3][1] = c[2][1]
+        c[2][1] = tempora
 
-        tempora = c[2][0]
-        c[2][0] = c[3][0]
-        c[3][0] = c[0][0]
-        c[0][0] = c[1][0]
-        c[1][0] = tempora
+        tempora = c[1][0]
+        c[1][0] = c[0][0]
+        c[0][0] = c[3][0]
+        c[3][0] = c[2][0]
+        c[2][0] = tempora
 
     def d_prime(self):
         self.rot_face_prime(5)
         c = self.cube
 
-        tempora = c[0][6]
-        c[0][6] = c[3][6]
-        c[3][6] = c[2][6]
-        c[2][6] = c[1][6]
-        c[1][6] = tempora
+        tempora = c[1][6]
+        c[1][6] = c[2][6]
+        c[2][6] = c[3][6]
+        c[3][6] = c[0][6]
+        c[0][6] = tempora
 
-        tempora = c[0][7]
-        c[0][7] = c[3][7]
-        c[3][7] = c[2][7]
-        c[2][7] = c[1][7]
-        c[1][7] = tempora
+        tempora = c[1][7]
+        c[1][7] = c[2][7]
+        c[2][7] = c[3][7]
+        c[3][7] = c[0][7]
+        c[0][7] = tempora
 
-        tempora = c[0][8]
-        c[0][8] = c[3][8]
-        c[3][8] = c[2][8]
-        c[2][8] = c[1][8]
-        c[1][8] = tempora
+        tempora = c[1][8]
+        c[1][8] = c[2][8]
+        c[2][8] = c[3][8]
+        c[3][8] = c[0][8]
+        c[0][8] = tempora
+# here
 
     def l_prime(self):
         self.rot_face_prime(3)
@@ -342,5 +343,5 @@ class Cube:
 
 
 cube = Cube()
-cube.b_prime()
+cube.d_prime()
 cube.print_cube()
