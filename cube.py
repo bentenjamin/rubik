@@ -163,6 +163,32 @@ class Cube:
         c[5][2] = c[2][6]
         c[2][6] = tempora
 
+    def twof(self):
+        self.f()
+        self.f()
+
+    def twob(self):
+        self.b()
+        self.b()
+    
+    def twou(self):
+        self.u()
+        self.u()
+
+    def twod(self):
+        self.d()
+        self.d()
+
+    def twol(self):
+        self.l()
+        self.l()
+
+    def twor(self):
+        self.r()
+        self.r()
+
+
+
     def print_cube(self):
         cube = self.cube
         print(f"           {cube[4][0]} {cube[4][1]} {cube[4][2]}")
