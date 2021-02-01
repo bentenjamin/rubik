@@ -55,8 +55,6 @@ def optimise_3_to_1(moves):
     changed = False
     while i < len(moves) - 2:
         if moves[i] == moves[i + 1] == moves[i + 2]:
-            # if moves[i][-1] == "2":
-            #     del moves[i:i + 2]
             moves[i] = invert_move(moves[i])
             del moves[i + 1:i + 3] 
             changed = True
