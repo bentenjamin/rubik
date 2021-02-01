@@ -119,6 +119,50 @@ class Cube:
         c[2][8] = c[1][8]
         c[1][8] = tempora
 
+    def l(self):
+        self.rot_face(3)
+        c = self.cube
+
+        tempora = c[4][0]
+        c[4][0] = c[2][8]
+        c[2][8] = c[5][0]
+        c[5][0] = c[0][0]
+        c[0][0] = tempora
+
+        tempora = c[4][3]
+        c[4][3] = c[2][5]
+        c[2][5] = c[5][3]
+        c[5][3] = c[0][3]
+        c[0][3] = tempora
+
+        tempora = c[4][6]
+        c[4][6] = c[2][2]
+        c[2][2] = c[5][6]
+        c[5][6] = c[0][6]
+        c[0][6] = tempora
+
+    def r(self):
+        self.rot_face(1)
+        c = self.cube
+
+        tempora = c[4][8]
+        c[4][8] = c[0][8]
+        c[0][8] = c[5][8]
+        c[5][8] = c[2][0]
+        c[2][0] = tempora
+
+        tempora = c[4][5]
+        c[4][5] = c[0][5]
+        c[0][5] = c[5][5]
+        c[5][5] = c[2][3]
+        c[2][3] = tempora
+
+        tempora = c[4][2]
+        c[4][2] = c[0][2]
+        c[0][2] = c[5][2]
+        c[5][2] = c[2][6]
+        c[2][6] = tempora
+
     def print_cube(self):
         cube = self.cube
         print(f"           {cube[4][0]} {cube[4][1]} {cube[4][2]}")
@@ -133,5 +177,5 @@ class Cube:
 
 
 cube = Cube()
-cube.d()
+cube.r()
 cube.print_cube()
