@@ -10,92 +10,101 @@ class Cube:
                      [51, 52, 53, 54, 55, 56, 57, 58, 59],
                      [61, 62, 63, 64, 65, 66, 67, 68, 69]]
 
-        self.face_joints = [[5, 2, 6, 4],
-                            [5, 3, 6, 1],
-                            [5, 4, 6, 2],
-                            [5, 1, 6, 3],
-                            [3, 2, 1, 4],
-                            [1, 2, 3, 4]]
-
     def rot_face(self, face_index):
-        temp_corner = self.cube[face_index][0]
-        self.cube[face_index][0] = self.cube[face_index][6]
-        self.cube[face_index][6] = self.cube[face_index][8]
-        self.cube[face_index][8] = self.cube[face_index][2]
-        self.cube[face_index][2] = temp_corner
+        c = self.cube
 
-        temp_edge = self.cube[face_index][1]
-        self.cube[face_index][1] = self.cube[face_index][3]
-        self.cube[face_index][3] = self.cube[face_index][7]
-        self.cube[face_index][7] = self.cube[face_index][5]
-        self.cube[face_index][5] = temp_edge
+        temp_corner = c[face_index][0]
+        c[face_index][0] = c[face_index][6]
+        c[face_index][6] = c[face_index][8]
+        c[face_index][8] = c[face_index][2]
+        c[face_index][2] = temp_corner
+
+        temp_edge = c[face_index][1]
+        c[face_index][1] = c[face_index][3]
+        c[face_index][3] = c[face_index][7]
+        c[face_index][7] = c[face_index][5]
+        c[face_index][5] = temp_edge
+
+    def rot_face_prime(self, face_index):
+        c = self.cube
+
+        temp_corner = c[face_index][2]
+        c[face_index][2] = c[face_index][8]
+        c[face_index][8] = c[face_index][6]
+        c[face_index][6] = c[face_index][0]
+        c[face_index][0] = temp_corner
+
+        temp_edge = c[face_index][5]
+        c[face_index][5] = c[face_index][7]
+        c[face_index][7] = c[face_index][3]
+        c[face_index][3] = c[face_index][1]
+        c[face_index][1] = temp_edge
 
     def f(self):
+        self.rot_face(0)
         c = self.cube
-    
-        temp = c[4][6]
+
+        tempora = c[4][6]
         c[4][6] = c[3][8]
         c[3][8] = c[5][2]
         c[5][2] = c[1][0]
-        c[1][0] = temp
+        c[1][0] = tempora
 
-        temp = c[4][7]
+        tempora = c[4][7]
         c[4][7] = c[3][5]
         c[3][5] = c[5][1]
         c[5][1] = c[1][3]
-        c[1][3] = temp
+        c[1][3] = tempora
 
-        temp = c[4][8]
+        tempora = c[4][8]
         c[4][8] = c[3][2]
         c[3][2] = c[5][0]
         c[5][0] = c[1][6]
-        c[1][6] = temp
+        c[1][6] = tempora
 
-        self.rot_face(0)
-    
     def b(self):
         self.rot_face(2)
         c = self.cube
 
-        t = c[4][2]
+        tempora = c[4][2]
         c[4][2] = c[1][8]
         c[1][8] = c[5][6]
         c[5][6] = c[3][0]
-        c[3][0] = t
+        c[3][0] = tempora
 
-        t = c[4][1]
+        tempora = c[4][1]
         c[4][1] = c[1][5]
         c[1][5] = c[5][7]
         c[5][7] = c[3][3]
-        c[3][3] = t
+        c[3][3] = tempora
 
-        t = c[4][0]
+        tempora = c[4][0]
         c[4][0] = c[1][2]
         c[1][2] = c[5][8]
         c[5][8] = c[3][6]
-        c[3][6] = t
+        c[3][6] = tempora
 
     def u(self):
         self.rot_face(4)
         c = self.cube
 
-        t = c[2][2]
+        tempora = c[2][2]
         c[2][2] = c[3][2]
         c[3][2] = c[0][2]
         c[0][2] = c[1][2]
-        c[1][2] = t
+        c[1][2] = tempora
 
-        t = c[2][1]
+        tempora = c[2][1]
         c[2][1] = c[3][1]
         c[3][1] = c[0][1]
         c[0][1] = c[1][1]
-        c[1][1] = t
+        c[1][1] = tempora
 
-        t = c[2][0]
+        tempora = c[2][0]
         c[2][0] = c[3][0]
         c[3][0] = c[0][0]
         c[0][0] = c[1][0]
-        c[1][0] = t
+        c[1][0] = tempora
 
     def d(self):
         self.rot_face(5)
@@ -163,31 +172,161 @@ class Cube:
         c[5][2] = c[2][6]
         c[2][6] = tempora
 
-    def twof(self):
+    def two_f(self):
         self.f()
         self.f()
 
-    def twob(self):
+    def two_b(self):
         self.b()
         self.b()
-    
-    def twou(self):
+
+    def two_u(self):
         self.u()
         self.u()
 
-    def twod(self):
+    def two_d(self):
         self.d()
         self.d()
 
-    def twol(self):
+    def two_l(self):
         self.l()
         self.l()
 
-    def twor(self):
+    def two_r(self):
         self.r()
         self.r()
 
+    def f_prime(self):
+        self.rot_face_prime(0)
+        c = self.cube
 
+        tempora = c[1][0]
+        c[1][0] = c[5][2]
+        c[5][2] = c[3][8]
+        c[3][8] = c[4][6]
+        c[4][6] = tempora
+
+        tempora = c[1][3]
+        c[1][3] = c[5][1]
+        c[5][1] = c[3][5]
+        c[3][5] = c[4][7]
+        c[4][7] = tempora
+
+        tempora = c[1][6]
+        c[1][6] = c[5][0]
+        c[5][0] = c[3][2]
+        c[3][2] = c[4][8]
+        c[4][8] = tempora
+
+    def b_prime(self):
+        self.rot_face_prime(2)
+        c = self.cube
+
+        tempora = c[3][0]
+        c[3][0] = c[5][6]
+        c[5][6] = c[1][8]
+        c[1][8] = c[4][2]
+        c[4][2] = tempora
+
+        tempora = c[3][3]
+        c[3][3] = c[5][7]
+        c[5][7] = c[1][5]
+        c[1][5] = c[4][1]
+        c[4][1] = tempora
+
+        tempora = c[3][6]
+        c[3][6] = c[5][8]
+        c[5][8] = c[1][2]
+        c[1][2] = c[4][0]
+        c[4][0] = tempora
+
+    def u_prime(self):
+        self.rot_face_prime(4)
+        c = self.cube
+
+        tempora = c[2][2]
+        c[2][2] = c[3][2]
+        c[3][2] = c[0][2]
+        c[0][2] = c[1][2]
+        c[1][2] = tempora
+
+        tempora = c[2][1]
+        c[2][1] = c[3][1]
+        c[3][1] = c[0][1]
+        c[0][1] = c[1][1]
+        c[1][1] = tempora
+
+        tempora = c[2][0]
+        c[2][0] = c[3][0]
+        c[3][0] = c[0][0]
+        c[0][0] = c[1][0]
+        c[1][0] = tempora
+
+    def d_prime(self):
+        self.rot_face_prime(5)
+        c = self.cube
+
+        tempora = c[0][6]
+        c[0][6] = c[3][6]
+        c[3][6] = c[2][6]
+        c[2][6] = c[1][6]
+        c[1][6] = tempora
+
+        tempora = c[0][7]
+        c[0][7] = c[3][7]
+        c[3][7] = c[2][7]
+        c[2][7] = c[1][7]
+        c[1][7] = tempora
+
+        tempora = c[0][8]
+        c[0][8] = c[3][8]
+        c[3][8] = c[2][8]
+        c[2][8] = c[1][8]
+        c[1][8] = tempora
+
+    def l_prime(self):
+        self.rot_face_prime(3)
+        c = self.cube
+
+        tempora = c[4][0]
+        c[4][0] = c[2][8]
+        c[2][8] = c[5][0]
+        c[5][0] = c[0][0]
+        c[0][0] = tempora
+
+        tempora = c[4][3]
+        c[4][3] = c[2][5]
+        c[2][5] = c[5][3]
+        c[5][3] = c[0][3]
+        c[0][3] = tempora
+
+        tempora = c[4][6]
+        c[4][6] = c[2][2]
+        c[2][2] = c[5][6]
+        c[5][6] = c[0][6]
+        c[0][6] = tempora
+
+    def r_prime(self):
+        self.rot_face_prime(1)
+        c = self.cube
+
+        tempora = c[4][8]
+        c[4][8] = c[0][8]
+        c[0][8] = c[5][8]
+        c[5][8] = c[2][0]
+        c[2][0] = tempora
+
+        tempora = c[4][5]
+        c[4][5] = c[0][5]
+        c[0][5] = c[5][5]
+        c[5][5] = c[2][3]
+        c[2][3] = tempora
+
+        tempora = c[4][2]
+        c[4][2] = c[0][2]
+        c[0][2] = c[5][2]
+        c[5][2] = c[2][6]
+        c[2][6] = tempora
 
     def print_cube(self):
         cube = self.cube
@@ -203,5 +342,5 @@ class Cube:
 
 
 cube = Cube()
-cube.r()
+cube.b_prime()
 cube.print_cube()
