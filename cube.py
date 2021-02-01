@@ -9,6 +9,29 @@ class Cube:
                      [41, 42, 43, 44, 45, 46, 47, 48, 49],
                      [51, 52, 53, 54, 55, 56, 57, 58, 59],
                      [61, 62, 63, 64, 65, 66, 67, 68, 69]]
+        
+        self.moves = {
+            "F": self.f,
+            "B": self.b,
+            "U": self.u,
+            "D": self.d,
+            "L": self.l,
+            "R": self.r,
+
+            "F'": self.f_prime,
+            "B'": self.b_prime,
+            "U'": self.u_prime,
+            "D'": self.d_prime,
+            "L'": self.l_prime,
+            "R'": self.r_prime,
+
+            "F2": self.two_f,
+            "B2": self.two_b,
+            "U2": self.two_u,
+            "D2": self.two_d,
+            "L2": self.two_l,
+            "R2": self.two_r
+        }
 
     def rot_face(self, face_index):
         c = self.cube
@@ -342,5 +365,5 @@ class Cube:
 
 
 cube = Cube()
-cube.r_prime()
+cube.moves["F"]()
 cube.print_cube()
