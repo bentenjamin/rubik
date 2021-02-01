@@ -8,3 +8,32 @@ class Cube:
                     [41, 42, 43, 44, 45, 46, 47, 48, 49], 
                     [51, 52, 53, 54, 55, 56, 57, 58, 59], 
                     [61, 62, 63, 64, 65, 66, 67, 68, 69]]
+        
+    def rot_face(self, face_index):
+        temp_corner = self.cube[face_index][0]
+        self.cube[face_index][0] = self.cube[face_index][6]
+        self.cube[face_index][6] = self.cube[face_index][8]
+        self.cube[face_index][8] = self.cube[face_index][2]
+        self.cube[face_index][2] = temp_corner
+
+        temp_edge = self.cube[face_index][1]
+        self.cube[face_index][1] = self.cube[face_index][3]
+        self.cube[face_index][3] = self.cube[face_index][7]
+        self.cube[face_index][7] = self.cube[face_index][5]
+        self.cube[face_index][5] = temp_edge
+
+    def print_cube(self):
+        cube = self.cube
+        print(f"           {cube[4][0]} {cube[4][1]} {cube[4][2]}")
+        print(f"           {cube[4][3]} {cube[4][4]} {cube[4][5]}")
+        print(f"           {cube[4][6]} {cube[4][7]} {cube[4][8]}")
+        print(f"{cube[3][0]} {cube[3][1]} {cube[3][2]}   {cube[0][0]} {cube[0][1]} {cube[0][2]}   {cube[1][0]} {cube[1][1]} {cube[1][2]}   {cube[2][0]} {cube[2][1]} {cube[2][2]}")
+        print(f"{cube[3][3]} {cube[3][4]} {cube[3][5]}   {cube[0][3]} {cube[0][4]} {cube[0][5]}   {cube[1][3]} {cube[1][4]} {cube[1][5]}   {cube[2][3]} {cube[2][4]} {cube[2][5]}")
+        print(f"{cube[3][6]} {cube[3][7]} {cube[3][8]}   {cube[0][6]} {cube[0][7]} {cube[0][8]}   {cube[1][6]} {cube[1][7]} {cube[1][8]}   {cube[2][6]} {cube[2][7]} {cube[2][8]}")
+        print(f"           {cube[5][0]} {cube[5][1]} {cube[5][2]}")
+        print(f"           {cube[5][3]} {cube[5][4]} {cube[5][5]}")
+        print(f"           {cube[5][6]} {cube[5][7]} {cube[5][8]}")
+    
+cube = Cube()
+cube.rot_face(0)
+cube.print_cube()
