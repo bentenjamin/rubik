@@ -283,51 +283,50 @@ class Cube:
         c[2][8] = c[3][8]
         c[3][8] = c[0][8]
         c[0][8] = tempora
-# here
 
     def l_prime(self):
         self.rot_face_prime(3)
         c = self.cube
 
-        tempora = c[4][0]
-        c[4][0] = c[2][8]
-        c[2][8] = c[5][0]
-        c[5][0] = c[0][0]
-        c[0][0] = tempora
+        tempora = c[0][0]
+        c[0][0] = c[5][0]
+        c[5][0] = c[2][8]
+        c[2][8] = c[4][0]
+        c[4][0] = tempora
 
-        tempora = c[4][3]
-        c[4][3] = c[2][5]
-        c[2][5] = c[5][3]
-        c[5][3] = c[0][3]
-        c[0][3] = tempora
+        tempora = c[0][3]
+        c[0][3] = c[5][3]
+        c[5][3] = c[2][5]
+        c[2][5] = c[4][3]
+        c[4][3] = tempora
 
-        tempora = c[4][6]
-        c[4][6] = c[2][2]
-        c[2][2] = c[5][6]
-        c[5][6] = c[0][6]
-        c[0][6] = tempora
+        tempora = c[0][6]
+        c[0][6] = c[5][6]
+        c[5][6] = c[2][2]
+        c[2][2] = c[4][6]
+        c[4][6] = tempora
 
     def r_prime(self):
         self.rot_face_prime(1)
         c = self.cube
 
-        tempora = c[4][8]
-        c[4][8] = c[0][8]
-        c[0][8] = c[5][8]
-        c[5][8] = c[2][0]
-        c[2][0] = tempora
+        tempora = c[2][0]
+        c[2][0] = c[5][8]
+        c[5][8] = c[0][8]
+        c[0][8] = c[4][8]
+        c[4][8] = tempora
 
-        tempora = c[4][5]
-        c[4][5] = c[0][5]
-        c[0][5] = c[5][5]
-        c[5][5] = c[2][3]
-        c[2][3] = tempora
+        tempora = c[2][3]
+        c[2][3] = c[5][5]
+        c[5][5] = c[0][5]
+        c[0][5] = c[4][5]
+        c[4][5] = tempora
 
-        tempora = c[4][2]
-        c[4][2] = c[0][2]
-        c[0][2] = c[5][2]
-        c[5][2] = c[2][6]
-        c[2][6] = tempora
+        tempora = c[2][6]
+        c[2][6] = c[5][2]
+        c[5][2] = c[0][2]
+        c[0][2] = c[4][2]
+        c[4][2] = tempora
 
     def print_cube(self):
         cube = self.cube
@@ -343,5 +342,5 @@ class Cube:
 
 
 cube = Cube()
-cube.d_prime()
+cube.r_prime()
 cube.print_cube()
