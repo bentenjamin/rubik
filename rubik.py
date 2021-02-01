@@ -1,5 +1,6 @@
 import sys
 import helper
+import cube
 
 def main():
     if len(sys.argv) != 2:
@@ -12,7 +13,10 @@ def main():
             number = input("How many moves would you like to scramble? ")
         moves = helper.moves_generator(int(number))
         print(*moves)
-        #then do the scramble and solve
+        demo_cube = cube.Cube()
+        demo_cube.execute_moves(moves)
+        demo_cube.print_cube()
+        #then solve
     else:
         instructions = sys.argv[1]
         split_instructions = instructions.split()
@@ -28,6 +32,12 @@ def main():
                     print ("{} is not a correct instruction (second character incorrect), please try again".format(instruction))
                     exit()
         print("after the error checking this should scramble and solve now")
-        #take in the list of moves, scramble and solve
+        demo_cube = cube.Cube()
+        # demo_cube.execute_moves(["F", "B", "L2"])
+        demo_cube.execute_moves(split_instructions)
+        demo_cube.print_cube()
+        # demo_cube.execute_moves(["L2", "B'", "F'"])
+        # demo_cube.print_cube()
+        #solve
 
 main()

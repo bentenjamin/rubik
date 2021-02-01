@@ -363,7 +363,12 @@ class Cube:
         print(f"           {cube[5][3]} {cube[5][4]} {cube[5][5]}")
         print(f"           {cube[5][6]} {cube[5][7]} {cube[5][8]}")
 
+    def execute_moves(self, moves_list):
 
-cube = Cube()
-cube.moves["F"]()
-cube.print_cube()
+        for move in moves_list:
+            self.moves[move]()
+        
+# cube = Cube()
+# cube.execute_moves(["F", "B"])
+# # cube.moves["F"]()
+# cube.print_cube()
