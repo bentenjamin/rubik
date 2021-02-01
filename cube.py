@@ -30,26 +30,50 @@ class Cube:
         self.cube[face_index][7] = self.cube[face_index][5]
         self.cube[face_index][5] = temp_edge
 
-    def rep_list(self, slist, dlist):
-        for i in [0, 1, 2]:
-            dlist[i] = slist[i]
-
-    def rot_external(self, cubies):
-        temp_list = cubies[0]
-        self.rep_list(cubies[3], cubies[0])
-        self.rep_list(cubies[2], cubies[3])
-        self.rep_list(cubies[1], cubies[2])
-        self.rep_list(temp_list, cubies[1])
-
     def f(self):
         c = self.cube
-        cubies = [[c[4][6], c[4][7], c[4][8]],
-                  [c[1][0], c[1][3], c[1][6]],
-                  [c[5][2], c[5][1], c[5][0]],
-                  [c[3][8], c[3][5], c[3][2]]]
+    
+        temp = c[4][6]
+        c[4][6] = c[3][8]
+        c[3][8] = c[5][2]
+        c[5][2] = c[1][0]
+        c[1][0] = temp
+
+        temp = c[4][7]
+        c[4][7] = c[3][5]
+        c[3][5] = c[5][1]
+        c[5][1] = c[1][3]
+        c[1][3] = temp
+
+        temp = c[4][8]
+        c[4][8] = c[3][2]
+        c[3][2] = c[5][0]
+        c[5][0] = c[1][6]
+        c[1][6] = temp
 
         self.rot_face(0)
-        self.rot_external(cubies)
+    
+    def b(self):
+        self.rot_face(2)
+        c = self.cube
+
+        t = c[4][2]
+        c[4][2] = c[1][8]
+        c[1][8] = c[5][6]
+        c[5][6] = c[3][0]
+        c[3][0] = t
+
+        t = c[4][1]
+        c[4][1] = c[1][5]
+        c[1][5] = c[5][7]
+        c[5][7] = c[3][3]
+        c[3][3] = t
+
+        t = c[4][0]
+        c[4][0] = c[1][2]
+        c[1][2] = c[5][8]
+        c[5][8] = c[3][6]
+        c[3][6] = t
 
     def print_cube(self):
         cube = self.cube
@@ -65,5 +89,5 @@ class Cube:
 
 
 cube = Cube()
-cube.f()
+cube.b()
 cube.print_cube()
