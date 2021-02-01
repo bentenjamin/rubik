@@ -13,3 +13,17 @@ live visual
 multiple algos?
 mix generator with (default and custom)
 human readable output of steps
+
+left    up     front   down    right   back
+41      51      11      61      21      31
+42
+43
+44
+45
+46
+47
+48
+49
+
+ENUM to represent moves as numbers?
+random number generator. 
