@@ -1,5 +1,16 @@
 import random
 
+#check if a string is a number
+def is_int(s):
+    try: 
+        int(s)
+        if int(s) >= 0:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
+
 # NB, in order to simplify the best way possible, moves prior to the optimising functions should not have any 2's in them i.e the optimising function should be the only one adding "face2" moves
 
 def moves_generator(number):
