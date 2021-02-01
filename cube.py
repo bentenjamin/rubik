@@ -3,6 +3,7 @@ import array
 
 class Cube:
     def __init__(self):
+        # the array of the cube. refer to format.png for a visualisation of these mapped
         self.cube = [[11, 12, 13, 14, 15, 16, 17, 18, 19],
                      [21, 22, 23, 24, 25, 26, 27, 28, 29],
                      [31, 32, 33, 34, 35, 36, 37, 38, 39],
@@ -10,6 +11,7 @@ class Cube:
                      [51, 52, 53, 54, 55, 56, 57, 58, 59],
                      [61, 62, 63, 64, 65, 66, 67, 68, 69]]
         
+        # Dict to pair the string to the function that executes the move
         self.moves = {
             "F": self.f,
             "B": self.b,
@@ -33,6 +35,7 @@ class Cube:
             "R2": self.two_r
         }
 
+    # the rotaion of the 9 face cubies
     def rot_face(self, face_index):
         c = self.cube
 
@@ -63,6 +66,7 @@ class Cube:
         c[face_index][3] = c[face_index][1]
         c[face_index][1] = temp_edge
 
+    # moves the cubies 90 degrees clockwise
     def f(self):
         self.rot_face(0)
         c = self.cube
@@ -195,6 +199,7 @@ class Cube:
         c[5][2] = c[2][6]
         c[2][6] = tempora
 
+    # lazy way to do 180 degree turn
     def two_f(self):
         self.f()
         self.f()
@@ -219,6 +224,7 @@ class Cube:
         self.r()
         self.r()
 
+    # move cubies anti clockwise 90 degrees
     def f_prime(self):
         self.rot_face_prime(0)
         c = self.cube
@@ -351,6 +357,7 @@ class Cube:
         c[0][2] = c[4][2]
         c[4][2] = tempora
 
+    # print the cube to mirror format.png
     def print_cube(self):
         cube = self.cube
         print(f"           {cube[4][0]} {cube[4][1]} {cube[4][2]}")
