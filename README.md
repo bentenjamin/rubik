@@ -25,5 +25,8 @@ left    up     front   down    right   back
 48
 49
 
-ENUM to represent moves as numbers?
-random number generator. 
+python rubik.py -r
+- call random moves generator and asks you how many moves you want to generate. prints the moves and then the scrambled cube
+
+python rubik.py "example list of moves"
+- scrambles the cube and prints the scrambled cube
