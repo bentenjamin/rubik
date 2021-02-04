@@ -27,3 +27,9 @@ left    up     front   down    right   back
 
 ENUM to represent moves as numbers?
 random number generator. 
+
+
+ 1  2  3
+[0][1][2]
+ x  y  z
+-1  0  1
