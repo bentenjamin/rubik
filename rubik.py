@@ -39,5 +39,3 @@ def main():
         # demo_cube.execute_moves(["L2", "B'", "F'"])
         # demo_cube.print_cube()
         #solve
-
-main()

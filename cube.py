@@ -63,7 +63,8 @@ class Cube:
                     colours[0] = 'G' if x == 0 else 'B' if x == 2 else 'N'
                     colours[1] = 'Y' if y == 0 else 'W' if y == 2 else 'N'
                     colours[2] = 'O' if z == 0 else 'R' if z == 2 else 'N'
-                    self.cube[x][y][z] = Cubie(colours)
+                    point = [x - 1, y - 1, z - 1]
+                    self.cube[x][y][z] = Cubie(colours, point)
 
     def get_face(self, xrng, yrng, zrng, face):
         c = self.cube
@@ -151,9 +152,10 @@ class Cubie:
     # x face y face z face colours
     colours = ['N' for x in range(3)]
 
-    def __init__(self, colours):
+    def __init__(self, colours, point):
         self.colours = colours
-
+        self.point = point
+    
     def print_me(self):
         string = ''
         for x in self.colours:
