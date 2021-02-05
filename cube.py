@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+import random
 
 # 90 degree rotations in the XY plane. CW is clockwise, CC is counter-clockwise.
 ROT_XY_CW = np.array([[0, 1, 0],
@@ -24,12 +26,32 @@ ROT_YZ_CC = np.array([[1, 0, 0],
                       [0, 0, -1],
                       [0, 1, 0]])
 
+test_moves = "F B L R U D D' U' R' L' B' F' F2 B2 L2 R2 U2 D2 D2 U2 R2 L2 B2 F2"
+
 
 class Cube:
     # F, B, L, R, U, D
     # 0 null, 1 red, 2 orange, 3 green, 4 blue, 5 white, 6 yellow
 
     cube = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
+
+    valid_moves = ["L", "U", "F", "D", "R", "B", "L'", "U'", "F'", "D'", "R'", "B'","L2", "U2", "F2", "D2", "R2", "B2"]
+
+    move_config = {
+        "F": [[0, 1, 2], [0, 1, 2], [2], ROT_XY_CC],
+        "B": [[0, 1, 2], [0, 1, 2], [0], ROT_XY_CW],
+        "U": [[0, 1, 2], [2], [0, 1, 2], ROT_XZ_CC],
+        "D": [[0, 1, 2], [0], [0, 1, 2], ROT_XZ_CW],
+        "L": [[0], [0, 1, 2], [0, 1, 2], ROT_YZ_CW],
+        "R": [[2], [0, 1, 2], [0, 1, 2], ROT_YZ_CC],
+
+        "F'": [[0, 1, 2], [0, 1, 2], [2], ROT_XY_CW],
+        "B'": [[0, 1, 2], [0, 1, 2], [0], ROT_XY_CC],
+        "U'": [[0, 1, 2], [2], [0, 1, 2], ROT_XZ_CW],
+        "D'": [[0, 1, 2], [0], [0, 1, 2], ROT_XZ_CC],
+        "L'": [[0], [0, 1, 2], [0, 1, 2], ROT_YZ_CC],
+        "R'": [[2], [0, 1, 2], [0, 1, 2], ROT_YZ_CW]
+    }
 
     def __init__(self):
         c = self.cube
@@ -79,66 +101,6 @@ class Cube:
                 {c[0][0][0].colours[1]} {c[1][0][0].colours[1]} {c[2][0][0].colours[1]}"""
         return string
 
-    def f(self):
-        self.rot_face([2, 1, 0], [2, 1, 0], [2], ROT_XY_CC)
-    
-    def b(self):
-        self.rot_face([0, 1, 2], [0, 1, 2], [0], ROT_XY_CW)
-
-    def r(self):
-        self.rot_face([2], [0, 1, 2], [0, 1, 2], ROT_YZ_CC)
-    
-    def l(self):
-        self.rot_face([0], [0, 1, 2], [0, 1, 2], ROT_YZ_CW)
-
-    def u(self):
-        self.rot_face([0, 1, 2], [2], [0, 1, 2], ROT_XZ_CC)
-
-    def d(self):
-        self.rot_face([0, 1, 2], [0], [0, 1, 2], ROT_XZ_CW)
-
-    def f_prime(self):
-        self.rot_face([2, 1, 0], [2, 1, 0], [2], ROT_XY_CW)
-    
-    def b_prime(self):
-        self.rot_face([0, 1, 2], [0, 1, 2], [0], ROT_XY_CC)
-
-    def r_prime(self):
-        self.rot_face([2], [0, 1, 2], [0, 1, 2], ROT_YZ_CW)
-    
-    def l_prime(self):
-        self.rot_face([0], [0, 1, 2], [0, 1, 2], ROT_YZ_CC)
-
-    def u_prime(self):
-        self.rot_face([0, 1, 2], [2], [0, 1, 2], ROT_XZ_CW)
-
-    def d_prime(self):
-        self.rot_face([0, 1, 2], [0], [0, 1, 2], ROT_XZ_CC)
-
-    def two_f(self):
-        for i in range(2):
-            self.f()
-    
-    def two_b(self):
-        for i in range(2):
-            self.b()
-
-    def two_r(self):
-        for i in range(2):
-            self.r()
-    
-    def two_l(self):
-        for i in range(2):
-            self.l()
-
-    def two_u(self):
-        for i in range(2):
-            self.u()
-
-    def two_d(self):
-        for i in range(2):
-            self.d()
-
     def get_colour_indexs(self, lists):
         colours = []
 
@@ -168,6 +130,21 @@ class Cube:
                 for z in zrng:
                     c[x][y][z] = trans[x][y][z]
 
+    def exe_move(self, move):
+        i, move = (1, move) if ("2" not in move) else (2, move[:1])
+        conf = self.move_config[move]
+        for j in range(i):
+            self.rot_face(conf[0], conf[1], conf[2], conf[3])
+    
+    def do_moves(self, moves):
+        moves = str.split(moves, " ")
+        for move in moves:
+            self.exe_move(move)
+    
+    def scramble(self, moves):
+        for i in range(moves):
+            self.exe_move(random.choice(self.valid_moves))
+
 
 class Cubie:
     # x face y face z face colours
@@ -184,7 +161,5 @@ class Cubie:
 
 
 cube = Cube()
-# cube.print_me()
-# print(cube.get_face([0, 1, 2], [2], [0, 1, 2], 1))
-cube.two_u()
+cube.do_moves(sys.argv[1])
 print(cube)
