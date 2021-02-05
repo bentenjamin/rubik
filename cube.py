@@ -35,7 +35,8 @@ class Cube:
 
     cube = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
 
-    valid_moves = ["L", "U", "F", "D", "R", "B", "L'", "U'", "F'", "D'", "R'", "B'","L2", "U2", "F2", "D2", "R2", "B2"]
+    valid_moves = ["L", "U", "F", "D", "R", "B", "L'", "U'",
+                   "F'", "D'", "R'", "B'", "L2", "U2", "F2", "D2", "R2", "B2"]
 
     move_config = {
         "F": [[0, 1, 2], [0, 1, 2], [2], ROT_XY_CC],
@@ -110,9 +111,9 @@ class Cube:
 
         return colours
 
-    def rot_face(self, xrng, yrng, zrng, rot_matrix):
+    def rot_face(self, move_conf):
         c = self.cube
-
+        xrng, yrng, zrng, rot_matrix = move_conf
         c_i = self.get_colour_indexs([xrng, yrng, zrng])
 
         trans = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
@@ -131,16 +132,16 @@ class Cube:
                     c[x][y][z] = trans[x][y][z]
 
     def exe_move(self, move):
-        i, move = (1, move) if ("2" not in move) else (2, move[:1])
-        conf = self.move_config[move]
-        for j in range(i):
-            self.rot_face(conf[0], conf[1], conf[2], conf[3])
-    
+        if "2" in move:
+            move = move[:1]
+            self.rot_face(self.move_config[move])
+        self.rot_face(self.move_config[move])
+
     def do_moves(self, moves):
         moves = str.split(moves, " ")
         for move in moves:
             self.exe_move(move)
-    
+
     def scramble(self, moves):
         for i in range(moves):
             self.exe_move(random.choice(self.valid_moves))
@@ -161,5 +162,7 @@ class Cubie:
 
 
 cube = Cube()
-cube.do_moves(sys.argv[1])
+# cube.scramble(20)
+cube.do_moves(test_moves)
+# cube.do_moves(sys.argv[1])
 print(cube)
