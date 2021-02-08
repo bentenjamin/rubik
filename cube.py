@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import random
+from stringcolor import * 
 
 # 90 degree rotations in the XY plane. CW is clockwise, CC is counter-clockwise.
 ROT_XY_CW = np.array([[0, 1, 0],
@@ -90,21 +91,21 @@ class Cube:
         print(string)
 
     #where r == reset
-    cols = {'r':"\033[0m", 'B':"\033[34m", 'R':"\033[31m", 'G':"\033[32m", 'O':"\033[33m", 'W':"\033[37m", 'Y':"\033[93m"}
+    cols = {'B':"blue", 'R':"red", 'G':"green", 'O':"orange", 'W':"white", 'Y':"yellow"}
     # {self.cols[c[0][2][0].colours[1]]}
 
     def __str__(self):
         c = self.cube
         string = f"""
-                {c[0][2][0].colours[1]} {c[1][2][0].colours[1]} {c[2][2][0].colours[1]}
-                {c[0][2][1].colours[1]} {c[1][2][1].colours[1]} {c[2][2][1].colours[1]}
-                {c[0][2][2].colours[1]} {c[1][2][2].colours[1]} {c[2][2][2].colours[1]}
-        {c[0][2][0].colours[0]} {c[0][2][1].colours[0]} {c[0][2][2].colours[0]}   {c[0][2][2].colours[2]} {c[1][2][2].colours[2]} {c[2][2][2].colours[2]}   {c[2][2][2].colours[0]} {c[2][2][1].colours[0]} {c[2][2][0].colours[0]}   {c[2][2][0].colours[2]} {c[1][2][0].colours[2]} {c[0][2][0].colours[2]}
-        {c[0][1][0].colours[0]} {c[0][1][1].colours[0]} {c[0][1][2].colours[0]}   {c[0][1][2].colours[2]} {c[1][1][2].colours[2]} {c[2][1][2].colours[2]}   {c[2][1][2].colours[0]} {c[2][1][1].colours[0]} {c[2][1][0].colours[0]}   {c[2][1][0].colours[2]} {c[1][1][0].colours[2]} {c[0][1][0].colours[2]}
-        {c[0][0][0].colours[0]} {c[0][0][1].colours[0]} {c[0][0][2].colours[0]}   {c[0][0][2].colours[2]} {c[1][0][2].colours[2]} {c[2][0][2].colours[2]}   {c[2][0][2].colours[0]} {c[2][0][1].colours[0]} {c[2][0][0].colours[0]}   {c[2][0][0].colours[2]} {c[1][0][0].colours[2]} {c[0][0][0].colours[2]}
-                {c[0][0][2].colours[1]} {c[1][0][2].colours[1]} {c[2][0][2].colours[1]}
-                {c[0][0][1].colours[1]} {c[1][0][1].colours[1]} {c[2][0][1].colours[1]}
-                {c[0][0][0].colours[1]} {c[1][0][0].colours[1]} {c[2][0][0].colours[1]}"""
+                {cs(c[0][2][0].colours[1], self.cols[c[0][2][0].colours[1]])} {cs(c[1][2][0].colours[1], self.cols[c[1][2][0].colours[1]])} {cs(c[2][2][0].colours[1], self.cols[c[2][2][0].colours[1]])}
+                {cs(c[0][2][1].colours[1], self.cols[c[0][2][1].colours[1]])} {cs(c[1][2][1].colours[1], self.cols[c[1][2][1].colours[1]])} {cs(c[2][2][1].colours[1], self.cols[c[2][2][1].colours[1]])}
+                {cs(c[0][2][2].colours[1], self.cols[c[0][2][2].colours[1]])} {cs(c[1][2][2].colours[1], self.cols[c[1][2][2].colours[1]])} {cs(c[2][2][2].colours[1], self.cols[c[2][2][2].colours[1]])}
+        {cs(c[0][2][0].colours[0], self.cols[c[0][2][0].colours[0]])} {cs(c[0][2][1].colours[0], self.cols[c[0][2][1].colours[0]])} {cs(c[0][2][2].colours[0], self.cols[c[0][2][2].colours[0]])}   {cs(c[0][2][2].colours[2], self.cols[c[0][2][2].colours[2]])} {cs(c[1][2][2].colours[2], self.cols[c[1][2][2].colours[2]])} {cs(c[2][2][2].colours[2], self.cols[c[2][2][2].colours[2]])}   {cs(c[2][2][2].colours[0], self.cols[c[2][2][2].colours[0]])} {cs(c[2][2][1].colours[0], self.cols[c[2][2][1].colours[0]])} {cs(c[2][2][0].colours[0], self.cols[c[2][2][0].colours[0]])}   {cs(c[2][2][0].colours[2], self.cols[c[2][2][0].colours[2]])} {cs(c[1][2][0].colours[2], self.cols[c[1][2][0].colours[2]])} {cs(c[0][2][0].colours[2], self.cols[c[0][2][0].colours[2]])}
+        {cs(c[0][1][0].colours[0], self.cols[c[0][1][0].colours[0]])} {cs(c[0][1][1].colours[0], self.cols[c[0][1][1].colours[0]])} {cs(c[0][1][2].colours[0], self.cols[c[0][1][2].colours[0]])}   {cs(c[0][1][2].colours[2], self.cols[c[0][1][2].colours[2]])} {cs(c[1][1][2].colours[2], self.cols[c[1][1][2].colours[2]])} {cs(c[2][1][2].colours[2], self.cols[c[2][1][2].colours[2]])}   {cs(c[2][1][2].colours[0], self.cols[c[2][1][2].colours[0]])} {cs(c[2][1][1].colours[0], self.cols[c[2][1][1].colours[0]])} {cs(c[2][1][0].colours[0], self.cols[c[2][1][0].colours[0]])}   {cs(c[2][1][0].colours[2], self.cols[c[2][1][0].colours[2]])} {cs(c[1][1][0].colours[2], self.cols[c[1][1][0].colours[2]])} {cs(c[0][1][0].colours[2], self.cols[c[0][1][0].colours[2]])}
+        {cs(c[0][0][0].colours[0], self.cols[c[0][0][0].colours[0]])} {cs(c[0][0][1].colours[0], self.cols[c[0][0][1].colours[0]])} {cs(c[0][0][2].colours[0], self.cols[c[0][0][2].colours[0]])}   {cs(c[0][0][2].colours[2], self.cols[c[0][0][2].colours[2]])} {cs(c[1][0][2].colours[2], self.cols[c[1][0][2].colours[2]])} {cs(c[2][0][2].colours[2], self.cols[c[2][0][2].colours[2]])}   {cs(c[2][0][2].colours[0], self.cols[c[2][0][2].colours[0]])} {cs(c[2][0][1].colours[0], self.cols[c[2][0][1].colours[0]])} {cs(c[2][0][0].colours[0], self.cols[c[2][0][0].colours[0]])}   {cs(c[2][0][0].colours[2], self.cols[c[2][0][0].colours[2]])} {cs(c[1][0][0].colours[2], self.cols[c[1][0][0].colours[2]])} {cs(c[0][0][0].colours[2], self.cols[c[0][0][0].colours[2]])}
+                {cs(c[0][0][2].colours[1], self.cols[c[0][0][2].colours[1]])} {cs(c[1][0][2].colours[1], self.cols[c[1][0][2].colours[1]])} {cs(c[2][0][2].colours[1], self.cols[c[2][0][2].colours[1]])}
+                {cs(c[0][0][1].colours[1], self.cols[c[0][0][1].colours[1]])} {cs(c[1][0][1].colours[1], self.cols[c[1][0][1].colours[1]])} {cs(c[2][0][1].colours[1], self.cols[c[2][0][1].colours[1]])}
+                {cs(c[0][0][0].colours[1], self.cols[c[0][0][0].colours[1]])} {cs(c[1][0][0].colours[1], self.cols[c[1][0][0].colours[1]])} {cs(c[2][0][0].colours[1], self.cols[c[2][0][0].colours[1]])}"""
         return string
 
     def get_colour_indexs(self, lists):
