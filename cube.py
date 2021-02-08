@@ -90,9 +90,7 @@ class Cube:
 
         print(string)
 
-    #where r == reset
-    cols = {'B':"blue", 'R':"red", 'G':"green", 'O':"orange", 'W':"white", 'Y':"yellow"}
-    # {self.cols[c[0][2][0].colours[1]]}
+    cols = {'B':"blue", 'R':"red", 'G':"green", 'O':"DarkOrange", 'W':"white", 'Y':"Yellow4"}
 
     def __str__(self):
         c = self.cube
