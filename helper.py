@@ -1,5 +1,4 @@
 import random
-
 #check if a string is a number
 def is_int(s):
     try: 
@@ -12,15 +11,6 @@ def is_int(s):
         return False
 
 # NB, in order to simplify the best way possible, moves prior to the optimising functions should not have any 2's in them i.e the optimising function should be the only one adding "face2" moves
-
-def moves_generator(number):
-    moves_list = []
-    i = 0
-    moves = ["L", "U", "F", "D", "R", "B", "L'", "U'", "F'", "D'", "R'", "B'","L2", "U2", "F2", "D2", "R2", "B2"]
-    while i < number:
-        moves_list.append(random.choice(moves))
-        i += 1
-    return (moves_list)
 
 def invert_move(move):
     if move[-1:] == "'":

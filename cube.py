@@ -89,6 +89,10 @@ class Cube:
 
         print(string)
 
+    #where r == reset
+    cols = {'r':"\033[0m", 'B':"\033[34m", 'R':"\033[31m", 'G':"\033[32m", 'O':"\033[33m", 'W':"\033[37m", 'Y':"\033[93m"}
+    # {self.cols[c[0][2][0].colours[1]]}
+
     def __str__(self):
         c = self.cube
         string = f"""
@@ -144,9 +148,12 @@ class Cube:
             self.exe_move(move)
 
     def scramble(self, moves):
+        moves_list = []
         for i in range(moves):
-            self.exe_move(random.choice(self.valid_moves))
-
+            new_move = random.choice(self.valid_moves)
+            moves_list.append(new_move)
+            self.exe_move(new_move)
+        return moves_list
 
 class Cubie:
     # x face y face z face colours
@@ -163,8 +170,8 @@ class Cubie:
         return string
 
 
-cube = Cube()
+# cube = Cube()
 # cube.scramble(20)
-cube.do_moves(test_moves)
+# cube.do_moves(test_moves)
 # cube.do_moves(sys.argv[1])
-print(cube)
+# print(cube)

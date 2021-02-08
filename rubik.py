@@ -11,11 +11,10 @@ def main():
         while not helper.is_int(number):
             print("please provide a positive integer number for how many moves you want generated")
             number = input("How many moves would you like to scramble? ")
-        moves = helper.moves_generator(int(number))
-        print(*moves)
         demo_cube = cube.Cube()
-        demo_cube.execute_moves(moves)
-        demo_cube.print_cube()
+        moves = demo_cube.scramble(int(number))
+        print(*moves)
+        print(demo_cube)
         #then solve
     else:
         instructions = sys.argv[1]
@@ -31,11 +30,12 @@ def main():
                 if instruction[1] not in ('2', '\''):
                     print ("{} is not a correct instruction (second character incorrect), please try again".format(instruction))
                     exit()
-        print("after the error checking this should scramble and solve now")
         demo_cube = cube.Cube()
-        # demo_cube.execute_moves(["F", "B", "L2"])
-        demo_cube.execute_moves(split_instructions)
-        demo_cube.print_cube()
-        # demo_cube.execute_moves(["L2", "B'", "F'"])
-        # demo_cube.print_cube()
+        print(demo_cube)
+        # demo_cube.do_moves("F B L2")
+        # demo_cube.do_moves(instructions)
+        # print(demo_cube)
+        # demo_cube.do_moves("L2 B' F'")
+        # print(demo_cube)
         #solve
+main()
