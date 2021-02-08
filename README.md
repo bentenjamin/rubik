@@ -19,7 +19,7 @@ human readable output of steps
  x  y  z
 -1  0  1
 
-need to install thsi before running
+need to install this before running
 pip install string-color
 
 python rubik.py -r
@@ -27,3 +27,7 @@ python rubik.py -r
 
 python rubik.py "example list of moves"
 - scrambles the cube and prints the scrambled cube
+
+take in face and move and execute move as if in relation to face, not incl top/bot. start white face up
+
+R from front face equals back face.
