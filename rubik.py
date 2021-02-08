@@ -33,7 +33,7 @@ def main():
         demo_cube = cube.Cube()
         print(demo_cube)
         # demo_cube.do_moves("F B L2")
-        demo_cube.do_moves(instructions)
+        # demo_cube.do_moves(instructions)
         # print(demo_cube)
         # demo_cube.do_moves("L2 B' F'")
         # print(demo_cube)
