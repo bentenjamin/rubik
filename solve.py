@@ -1,6 +1,12 @@
-import cube
+
 
 Right = {
+    "D":"D",
+    "U":"U",
+    "D'":"D'",
+    "U'":"U'",
+    "D2":"D2",
+    "U2":"U2",
     "R":"B",
     "L":"F",
     "F":"R",
@@ -16,6 +22,12 @@ Right = {
 }
 
 Left = {
+    "D":"D",
+    "U":"U",
+    "D'":"D'",
+    "U'":"U'",
+    "D2":"D2",
+    "U2":"U2",
     "L":"B",
     "R":"F",
     "F":"L",
@@ -31,6 +43,12 @@ Left = {
 }
 
 Back = {
+    "D":"D",
+    "U":"U",
+    "D'":"D'",
+    "U'":"U'",
+    "D2":"D2",
+    "U2":"U2",
     "R":"L",
     "L":"R",
     "F":"B",
@@ -46,7 +64,6 @@ Back = {
 }
 
 class Algos:
-
     # get the side of the correlated coords [x, z]
     coord_to_side = {
         (1, 0): "B",
@@ -96,10 +113,11 @@ class Algos:
         self.moves = []
 
     def write_exe_moves(self, moves):
-        self.moves.append(moves)
+        self.moves.extend(moves)
         self.cube.do_moves(moves)
     
     def cross(self):
+        c = self.c
         mid_layer_white_edge = {
             (0, 0): "O",
             (0, 2): "G",
@@ -108,24 +126,24 @@ class Algos:
         }
 
         for colour in ["R", "B", "O", "G"]:
-            cubie = cube.find_cubie([colour, "W", "N"])
+            cubie = self.cube.find_cubie([colour, "W", "N"])
 
             # if cubie is on the white face
             if (cubie.point[1] == 2):
-                self.write_exe_moves(colour, coord_to_side[(cubie.point[0], cubie.point[2])] + "2")
+                self.write_exe_moves([self.coord_to_side[(cubie.point[0], cubie.point[2])] + "2"])
             # if cubie is in the middle
             if (cubie.point[1] == 1):
                 # this is borked need to find which face it is on
-                self.write_exe_moves(move_translator(mid_layer_white_edge[(cubie.point[0], cubie.point[2])], "F D F'"))
+                self.write_exe_moves(move_translator(mid_layer_white_edge[(cubie.point[0], cubie.point[2])], ["F", "D", "F'"]))
             # change to use point
-            center = c[(c_t_c[colour])[0]][1][(c_t_c[colour])[1]]
+            center = self.c[(self.c_t_c[colour])[0]][1][(self.c_t_c[colour])[1]]
             # change to use point
-            while not c[c_t_c[colour][0]][0][c_t_c[colour][1]] == cubie:
-                self.write_exe_moves("D")
+            while not self.c[self.c_t_c[colour][0]][0][self.c_t_c[colour][1]] == cubie:
+                self.write_exe_moves(["D"])
             if cubie.colours[1] == "W":
-                self.write_exe_moves(c_t_s[colour] + "2")
+                self.write_exe_moves([move_translator(colour, "F")[0] + "2"])
             else:
-                self.write_exe_moves(colour, "F' U' R U")
+                self.write_exe_moves(move_translator(colour, "F' U' R U".split()))
 
 #up and down not included here
 def move_translator(face, moves):
@@ -133,15 +151,25 @@ def move_translator(face, moves):
     for move in moves:
         if face == "R":
             new_moves.append(move)
-        if face == "G":
+        elif face == "G":
             move = Left[move]
             new_moves.append(move)
-        if face == "B":
+        elif face == "B":
             move = Right[move]
             new_moves.append(move)
-        if face == "O":
+        elif face == "O":
             move = Back[move]
+            new_moves.append(move)
+        else:
             new_moves.append(move)
     return(new_moves)
 
 # print(move_translator("L", "R'"))
+
+def solve(cube):
+        algos = Algos(cube)
+        
+        algos.cross()
+
+        print(cube)
+        print(algos.moves)

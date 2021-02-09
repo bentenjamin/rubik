@@ -149,7 +149,6 @@ class Cube:
         self.rot_face(self.move_config[move])
 
     def do_moves(self, moves):
-        moves = str.split(moves, " ")
         for move in moves:
             self.exe_move(move)
 

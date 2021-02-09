@@ -24,8 +24,7 @@ def main():
         moves = demo_cube.scramble(20)
         print(*moves)
         print(demo_cube)
-        algos = solve.Algos(demo_cube)
-        # print(algos.moves)
+        solve.solve(demo_cube)
     else:
         instructions = sys.argv[1]
         split_instructions = instructions.split()
@@ -43,7 +42,7 @@ def main():
         demo_cube = cube.Cube()
         print(demo_cube)
         # demo_cube.do_moves("F B L2")
-        demo_cube.do_moves(instructions)
+        demo_cube.do_moves(split_instructions)
         print(demo_cube)
         # demo_cube.do_moves("L2 B' F'")
         # print(demo_cube)
