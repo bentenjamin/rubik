@@ -1,4 +1,4 @@
-
+import helper
 
 Right = {
     "D": "D",
@@ -167,7 +167,8 @@ class Algos:
                 if cubie.point[1] == 2:
                     if (cubie.colours[1] == "W") and (self.cube.cube[x][2][z] is cubie):
                         continue
-                    self.white_corner_helper((cubie.point[0], cubie.point[2]), ["R'", "D'", "R"])
+                    self.white_corner_helper(
+                        (cubie.point[0], cubie.point[2]), ["R'", "D'", "R"])
 
                 while not ((cubie.point[0] == x) and (cubie.point[2] == z)):
                     self.write_exe_moves(['D'])
@@ -209,5 +210,6 @@ def solve(cube):
     algos.cross()
     algos.white_corners()
 
-    print(cube)
-    print(algos.moves)
+    algos.moves = helper.optimise_all(algos.moves)
+    print("Solved Cube:", cube)
+    print("Solution:", *algos.moves)

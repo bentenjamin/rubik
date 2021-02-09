@@ -15,6 +15,8 @@ def is_int(s):
 def invert_move(move):
     if move[-1:] == "'":
         move = move[:1]
+    elif move[-1:] == "2":
+        return move
     else:
         move = move + "'"
     return move
@@ -39,8 +41,6 @@ def optimise_half_turn_metric(moves):
     changed = False
     while i < len(moves) - 1:
         if moves[i] == moves[i + 1]:
-            # if moves[i][-1] == "2":
-            #     del moves[i:i + 2]
             moves[i] = moves[i][0] + "2"
             del moves[i + 1:i + 2] 
             changed = True
@@ -65,9 +65,8 @@ def optimise_3_to_1(moves):
         optimise_3_to_1(moves)
     return(moves)
 
-# number = 10
-# moves = ["L", "L'", 'F', "F", 'F', "B'", 'B2', 'D', "D", "L'"]
-# print(moves)
-# print(optimise_do_undo(moves))
-# print(optimise_3_to_1(moves))
-# print(optimise_half_turn_metric(moves))
+def optimise_all(moves):
+    optimise_do_undo(moves)
+    optimise_3_to_1(moves)
+    optimise_half_turn_metric(moves)
+    return moves
