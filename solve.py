@@ -1,4 +1,5 @@
 import helper
+import numpy as np
 
 Right = {
     "D": "D",
@@ -134,7 +135,7 @@ class Algos:
 
             # if cubie is on the white face
             if (cubie.point[1] == 2):
-                # if cubie.colours[1] == "W" and self.cube.pieces[cubie.point[0]][2][cubie.point[2]] == cubie:
+                # if (cubie.colours[1] == "W") and (self.cube.cube[x][2][z] is cubie):
                 #         continue
                 self.write_exe_moves(
                     [self.coord_to_side[(cubie.point[0], cubie.point[2])] + "2"])
@@ -181,8 +182,41 @@ class Algos:
                 else:
                     self.white_corner_helper((x, z), ["R'", "D'", "R"])
 
+    def middle_edges(self):
+        ROT_XZ_CW = np.array([[0, 0, -1],
+                              [0, 1, 0],
+                              [1, 0, 0]])
+
+        for x in [0, 2]:
+            for z in [0, 2]:
+                cubie = self.cube.pieces[x][1][z]
+
+                if cubie.point[1] == 1:
+                    # idk if this works
+                    # if (self.c[x][2][z] is cubie) and (cubie.point[0] == self.c[1][1][z]):
+                    #     continue
+                    self.white_corner_helper(
+                        (cubie.point[0], cubie.point[2]), ["R'", "D", "R", "D", "F", "D'", "F'"])
+
+                # cubie colour
+                cc = cubie.colours[2 if cubie.point[0] == 1 else 0]
+                while cc != self.c[cubie.point[0]][1][cubie.point[2]].colours[2 if cubie.point[0] == 1 else 0]:
+                    self.write_exe_moves(['D'])
+                    cc = cubie.colours[2 if cubie.point[0] == 1 else 0]
+
+                # right center
+                rc = np.dot(
+                    [cubie.point[0] - 1, 0, cubie.point[2] - 1], ROT_XZ_CW)
+                if cubie.colours[1] == self.c[rc[0] + 1][1][rc[2] + 1].colours[0 if cubie.point[0] == 1 else 2]:
+                    self.write_exe_moves(move_translator(
+                        cc, ["D'", "R'", "D", "R", "D", "F", "D'", "F'"]))
+                else:
+                    self.write_exe_moves(move_translator(
+                        cc, ["D", "L", "D'", "L'", "D'", "F'", "D", "F"]))
 
 # up and down not included here
+
+
 def move_translator(face, moves):
     new_moves = []
     for move in moves:
@@ -209,6 +243,7 @@ def solve(cube):
 
     algos.cross()
     algos.white_corners()
+    algos.middle_edges()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
