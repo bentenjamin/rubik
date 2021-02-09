@@ -25,5 +25,8 @@ pip install string-color
 python rubik.py -r
 - call random moves generator and asks you how many moves you want to generate. prints the moves and then the scrambled cube
 
+python rubik.py -d
+- call random moves generator with a default number of 20 moves. prints the moves and then the scrambled cube
+
 python rubik.py "example list of moves"
 - scrambles the cube and prints the scrambled cube
