@@ -130,6 +130,9 @@ class Cube:
 
                     tc = trans[matrix[0]][matrix[1]][matrix[2]].colours
                     tc[c_i[0]], tc[c_i[1]] = tc[c_i[1]], tc[c_i[0]]
+
+                    trans[matrix[0]][matrix[1]][matrix[2]].point = [matrix[0] - 1, matrix[1] - 1, matrix[2] - 1]
+
         for x in xrng:
             for y in yrng:
                 for z in zrng:

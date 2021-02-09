@@ -45,6 +45,7 @@ Back = {
     "B2":"F2",
 }
 
+#up and down not included here
 def move_translator(face, move):
     if face == "F":
         return move
