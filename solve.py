@@ -89,32 +89,43 @@ class Algos:
         "Y": "D"
     }
     
-    def __init__(self, c):
+    def __init__(self, cube):
         # self.cube = c
-        self.c = c
+        self.cube = cube
+        self.c = cube.cube
         self.moves = []
+
+    def write_exe_moves(self, moves):
+        self.moves.append(moves)
+        self.cube.do_moves(moves)
     
     def cross(self):
+        mid_layer_white_edge = {
+            (0, 0): "O",
+            (0, 2): "G",
+            (2, 0): "B",
+            (2, 2): "R"
+        }
 
         for colour in ["R", "B", "O", "G"]:
-            cubie_coords, cubie = cube.find_cubie([colour, "W", "N"])
+            cubie = cube.find_cubie([colour, "W", "N"])
 
             # if cubie is on the white face
-            if (cubie_coords[1] == 2):
-                cube.exe_move(coord_to_side[(cubie_coords[0], cubie_coords[2])] + "2")
+            if (cubie.point[1] == 2):
+                self.write_exe_moves(colour, coord_to_side[(cubie.point[0], cubie.point[2])] + "2")
             # if cubie is in the middle
-            if (cubie_coords[1] == 1):
+            if (cubie.point[1] == 1):
                 # this is borked need to find which face it is on
-                cube.exe_move("F D F'")
+                self.write_exe_moves(move_translator(mid_layer_white_edge[(cubie.point[0], cubie.point[2])], "F D F'"))
             # change to use point
             center = c[(c_t_c[colour])[0]][1][(c_t_c[colour])[1]]
             # change to use point
             while not c[c_t_c[colour][0]][0][c_t_c[colour][1]] == cubie:
-                cube.exe_move("D")
+                self.write_exe_moves("D")
             if cubie.colours[1] == "W":
-                cube.exe_move(c_t_s[colour] + "2")
+                self.write_exe_moves(c_t_s[colour] + "2")
             else:
-                cube.translate(colour, "F' U' R U")
+                self.write_exe_moves(colour, "F' U' R U")
 
 #up and down not included here
 def move_translator(face, move):

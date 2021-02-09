@@ -36,6 +36,7 @@ class Cube:
     # 0 null, 1 red, 2 orange, 3 green, 4 blue, 5 white, 6 yellow
 
     cube = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
+    pieces = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
 
     valid_moves = ["L", "U", "F", "D", "R", "B", "L'", "U'",
                    "F'", "D'", "R'", "B'", "L2", "U2", "F2", "D2", "R2", "B2"]
@@ -65,8 +66,9 @@ class Cube:
                     colours[0] = 'G' if x == 0 else 'B' if x == 2 else 'N'
                     colours[1] = 'Y' if y == 0 else 'W' if y == 2 else 'N'
                     colours[2] = 'O' if z == 0 else 'R' if z == 2 else 'N'
-                    point = [x - 1, y - 1, z - 1]
+                    point = [x, y, z]
                     self.cube[x][y][z] = Cubie(colours, point)
+                    self.pieces[x][y][z] = self.cube[x][y][z]
 
     def get_face(self, xrng, yrng, zrng, face):
         c = self.cube
@@ -133,7 +135,7 @@ class Cube:
                     tc = trans[matrix[0]][matrix[1]][matrix[2]].colours
                     tc[c_i[0]], tc[c_i[1]] = tc[c_i[1]], tc[c_i[0]]
 
-                    trans[matrix[0]][matrix[1]][matrix[2]].point = [matrix[0] - 1, matrix[1] - 1, matrix[2] - 1]
+                    trans[matrix[0]][matrix[1]][matrix[2]].point = [matrix[0], matrix[1], matrix[2]]
 
         for x in xrng:
             for y in yrng:
@@ -165,8 +167,8 @@ class Cube:
             for y in range(3):
                 for z in range(3):
                     if (set(colours).issubset(c[x][y][z].colours)):
-                        return [x, y, z], c[x][y][z]
-        return [0, 0, 0]
+                        return c[x][y][z]
+        return c[0][0][0]
 
 
 class Cubie:
