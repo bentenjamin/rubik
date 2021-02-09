@@ -1,6 +1,7 @@
 import sys
 import helper
 import cube
+import solve
 
 def main():
     if len(sys.argv) != 2:
@@ -16,6 +17,8 @@ def main():
         print(*moves)
         print(demo_cube)
         #then solve
+        algos = solve.Algos(demo_cube)
+        # print(algos.moves)
     else:
         instructions = sys.argv[1]
         split_instructions = instructions.split()
