@@ -10,6 +10,15 @@ def is_int(s):
     except ValueError:
         return False
 
+#see if all colours on a face are the same
+def check_face(colours):
+    i = 0
+    while i < 9:
+        if colours[i] != colours[0]:
+            return False
+        else:
+            i += 1
+    return True
 # NB, in order to simplify the best way possible, moves prior to the optimising functions should not have any 2's in them i.e the optimising function should be the only one adding "face2" moves
 
 def invert_move(move):

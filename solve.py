@@ -1,4 +1,5 @@
 import helper
+import cube
 
 Right = {
     "D":"D",
@@ -167,11 +168,14 @@ def move_translator(face, moves):
 # print(move_translator("L", "R'"))
 
 def solve(cube):
-        algos = Algos(cube)
+    if cube.is_solved():
+        print("cube already solved, no solution needed")
+        exit()
+    
+    algos = Algos(cube)
         
-        algos.cross()
+    algos.cross()
 
-
-        algos.moves = helper.optimise_all(algos.moves)
-        print("Solved Cube:", cube)
-        print("Solution:", *algos.moves)
+    algos.moves = helper.optimise_all(algos.moves)
+    print("Solved Cube:", cube)
+    print("Solution:", *algos.moves)
