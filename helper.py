@@ -74,8 +74,23 @@ def optimise_3_to_1(moves):
         optimise_3_to_1(moves)
     return(moves)
 
+def optimise_4_to_1(moves):
+    i = 0
+    changed = False
+    while i < len(moves) - 3:
+        if moves[i] == moves[i + 1] == moves[i + 2] == moves[i + 3]:
+            del moves[i:i + 4] 
+            changed = True
+        else:
+            i += 1
+    if changed:
+        optimise_4_to_1(moves)
+    return(moves)
+
 def optimise_all(moves):
     optimise_do_undo(moves)
+    optimise_4_to_1(moves)
     optimise_3_to_1(moves)
+    optimise_4_to_1(moves)
     optimise_half_turn_metric(moves)
     return moves
