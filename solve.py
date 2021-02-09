@@ -1,5 +1,6 @@
 import helper
-import numpy as np
+import cube
+from cube import np
 
 Right = {
     "D": "D",
@@ -239,6 +240,10 @@ def move_translator(face, moves):
 
 
 def solve(cube):
+    if cube.is_solved():
+        print("cube already solved, no solution needed")
+        exit()
+
     algos = Algos(cube)
 
     algos.cross()

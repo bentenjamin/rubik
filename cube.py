@@ -3,6 +3,7 @@ import sys
 import random
 from stringcolor import *
 import math
+import helper
 
 # 90 degree rotations in the XY plane. CW is clockwise, CC is counter-clockwise.
 ROT_XY_CW = np.array([[0, 1, 0],
@@ -55,6 +56,15 @@ class Cube:
         "D'": [[0, 1, 2], [0], [0, 1, 2], ROT_XZ_CC],
         "L'": [[0], [0, 1, 2], [0, 1, 2], ROT_YZ_CC],
         "R'": [[2], [0, 1, 2], [0, 1, 2], ROT_YZ_CW]
+    }
+
+    faces = {
+        "F": [[0, 1, 2], [0, 1, 2], [2], 2],
+        "B": [[0, 1, 2], [0, 1, 2], [0], 2],
+        "U": [[0, 1, 2], [2], [0, 1, 2], 1],
+        "D": [[0, 1, 2], [0], [0, 1, 2], 1],
+        "L": [[0], [0, 1, 2], [0, 1, 2], 0],
+        "R": [[2], [0, 1, 2], [0, 1, 2], 0],
     }
 
     def __init__(self):
@@ -169,6 +179,27 @@ class Cube:
                         return c[x][y][z]
         return c[0][0][0]
 
+    def is_solved(self):
+        faces = ["F", "B", "U", "D", "L", "R"]
+        colours = []
+        for face in faces:
+            x, y, z, f = self.faces[face]
+            colours = (self.get_face(x, y, z, f))
+            if helper.check_face(colours) == False:
+                return False
+        return True
+
+    # def get_face(self, xrng, yrng, zrng, face):
+    #     c = self.cube
+
+    #     out = ['N' for x in range(9)]
+    #     i = 0
+    #     for x in xrng:
+    #         for y in yrng:
+    #             for z in zrng:
+    #                 out[i] = self.cube[x][y][z].colours[face]
+    #                 i += 1
+    #     return out
 
 class Cubie:
     # x face y face z face colours

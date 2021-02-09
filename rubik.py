@@ -49,7 +49,7 @@ def run_cube(cube, moves, scramble):
         print("Moves used to scramble cube : ", *moves)
     else:
         cube.do_moves(moves)
-        print("Moves used to scramble cube : ")
+        print("Moves used to scramble cube : ", *moves)
     print(cube)
     solve.solve(cube)
 
