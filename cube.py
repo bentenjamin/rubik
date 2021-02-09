@@ -1,7 +1,8 @@
 import numpy as np
 import sys
 import random
-from stringcolor import * 
+from stringcolor import *
+import math
 
 # 90 degree rotations in the XY plane. CW is clockwise, CC is counter-clockwise.
 ROT_XY_CW = np.array([[0, 1, 0],
@@ -90,7 +91,8 @@ class Cube:
 
         print(string)
 
-    cols = {'B':"blue", 'R':"red", 'G':"green", 'O':"DarkOrange", 'W':"white", 'Y':"Yellow4"}
+    cols = {'B': "blue", 'R': "red", 'G': "green",
+            'O': "DarkOrange", 'W': "white", 'Y': "Yellow4"}
 
     def __str__(self):
         c = self.cube
@@ -157,6 +159,16 @@ class Cube:
             self.exe_move(new_move)
         return moves_list
 
+    def find_cubie(self, colours):
+        c = self.cube
+        for x in range(3):
+            for y in range(3):
+                for z in range(3):
+                    if (set(colours).issubset(c[x][y][z].colours)):
+                        return [x, y, z], c[x][y][z]
+        return [0, 0, 0]
+
+
 class Cubie:
     # x face y face z face colours
     colours = ['N' for x in range(3)]
@@ -164,7 +176,7 @@ class Cubie:
     def __init__(self, colours, point):
         self.colours = colours
         self.point = point
-    
+
     def print_me(self):
         string = ''
         for x in self.colours:
@@ -172,8 +184,73 @@ class Cubie:
         return string
 
 
-# cube = Cube()
+def cross(cube: Cube):
+    c = cube.cube
+    # get the side of the correlated coords [x, z]
+    coord_to_side = {
+        (1, 0): "B",
+        (0, 1): "L",
+        (2, 1): "R",
+        (1, 2): "F"
+    }
+
+    # colour to cooord: tuple of x and z of the face
+    c_t_c = {
+        "O": (1, 0),
+        "G": (0, 1),
+        "B": (2, 1),
+        "R": (1, 2)
+    }
+
+    side_to_coord = {
+        "B": (1, 0),
+        "L": (0, 1),
+        "R": (2, 1),
+        "F": (1, 2)
+    }
+
+    side_colour = {
+        "F": "R",
+        "B": "O",
+        "L": "G",
+        "R": "B",
+        "U": "W",
+        "D": "Y"
+    }
+
+    # colour to side
+    c_t_s = {
+        "R": "F",
+        "O": "B",
+        "G": "L",
+        "B": "R",
+        "W": "U",
+        "Y": "D"
+    }
+
+    colour = "R"
+
+    cubie_coords, cubie = cube.find_cubie([colour, "W", "N"])
+
+    if (cubie_coords[1] == 2):
+        cube.exe_move(coord_to_side[(cubie_coords[0], cubie_coords[2])] + "2")
+    if (cubie_coords[1] == 1):
+        # this is borked need to find which face it is on
+        cube.exe_move("F D F'")
+    # change to use point
+    center = c[(c_t_c[colour])[0]][1][(c_t_c[colour])[1]]
+    # change to use point
+    while not c[c_t_c[colour][0]][0][c_t_c[colour][1]] == cubie:
+        cube.exe_move("D")
+    if cubie.colours[1] == "W":
+        cube.exe_move(c_t_s[colour] + "2")
+    else:
+        cube.translate(colour, "F' U' R U")
+
+
+cube = Cube()
+cross(cube)
 # cube.scramble(20)
 # cube.do_moves(test_moves)
 # cube.do_moves(sys.argv[1])
-# print(cube)
+print(cube)
