@@ -1,4 +1,4 @@
-
+import helper
 
 Right = {
     "D":"D",
@@ -171,5 +171,7 @@ def solve(cube):
         
         algos.cross()
 
-        print(cube)
-        print(algos.moves)
+
+        algos.moves = helper.optimise_all(algos.moves)
+        print("Solved Cube:", cube)
+        print("Solution:", *algos.moves)
