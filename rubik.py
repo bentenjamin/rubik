@@ -19,6 +19,13 @@ def main():
         #then solve
         algos = solve.Algos(demo_cube)
         # print(algos.moves)
+    elif sys.argv[1] == "-d":
+        demo_cube = cube.Cube()
+        moves = demo_cube.scramble(20)
+        print(*moves)
+        print(demo_cube)
+        algos = solve.Algos(demo_cube)
+        # print(algos.moves)
     else:
         instructions = sys.argv[1]
         split_instructions = instructions.split()

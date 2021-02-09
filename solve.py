@@ -128,17 +128,20 @@ class Algos:
                 self.write_exe_moves(colour, "F' U' R U")
 
 #up and down not included here
-def move_translator(face, move):
-    if face == "F":
-        return move
-    if face == "L":
-        move = Left[move]
-        return move
-    if face == "R":
-        move = Right[move]
-        return move
-    if face == "B":
-        move = Back[move]
-        return move
+def move_translator(face, moves):
+    new_moves = []
+    for move in moves:
+        if face == "R":
+            new_moves.append(move)
+        if face == "G":
+            move = Left[move]
+            new_moves.append(move)
+        if face == "B":
+            move = Right[move]
+            new_moves.append(move)
+        if face == "O":
+            move = Back[move]
+            new_moves.append(move)
+    return(new_moves)
 
 # print(move_translator("L", "R'"))
