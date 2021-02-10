@@ -217,6 +217,46 @@ class Algos:
                     self.write_exe_moves(move_translator(
                         cc, ["D", "L", "D'", "L'", "D'", "F'", "D", "F"]))
 
+    def yellow_cross(self):
+        if not (self.c[1][0][0].colours[1] == "Y" and self.c[1][0][2].colours[1] == "Y" and self.c[0][0][1].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
+            if not (self.c[1][0][0].colours[1] == self.c[1][0][2].colours[1] or self.c[0][0][1].colours[1] == self.c[2][0][1].colours[1]):
+                if self.c[1][0][0].colours[1] == "Y" or self.c[1][0][2].colours[1] == "Y":
+                    while not (self.c[1][0][0].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
+                        self.write_exe_moves(["D"])
+                self.write_exe_moves(["F", "L", "D", "L'", "D'", "L", "D", "L'", "D'", "F'", "D"])
+            elif self.c[1][0][2].colours[1] == "Y":
+                self.write_exe_moves(["D"])
+            
+            if self.c[1][0][2].colours[1] != "Y":
+                self.write_exe_moves(["F", "L", "D", "L'", "D'", "F'"])
+    
+    def yellow_edges(self):
+        opposite_colour = {
+            "O": "R",
+            "R": "O",
+            "B": "G",
+            "G": "B"
+        }
+        adj_colour = {
+            "O": "B",
+            "R": "G",
+            "B": "R",
+            "G": "O"
+        }
+
+        if not (opposite_colour[self.c[1][0][0].colours[2]] == self.c[1][0][2].colours[2] and adj_colour[self.c[1][0][2].colours[2]] == self.c[1][0][2].colours[2]):
+            if (opposite_colour[self.c[1][0][0].colours[2]] == self.c[1][0][2].colours[2] or opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]):
+                if opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]:
+                    self.write_exe_moves(["D"])
+                self.write_exe_moves(["L", "D", "L'", "D", "L", "D", "D", "L'"])
+
+            while adj_colour[self.c[0][0][1].colours[0]] != self.c[1][0][0].colours[2]:
+                self.write_exe_moves(["D"])
+            self.write_exe_moves(["L", "D", "L'", "D", "L", "D", "D", "L'"])
+
+            while self.c[1][1][2].colours[2] != self.c[1][0][2].colours[2]:
+                self.write_exe_moves(["D"])
+                
 # up and down not included here
 
 
@@ -251,6 +291,8 @@ def solve(cube):
     algos.cross()
     algos.white_corners()
     algos.middle_edges()
+    algos.yellow_cross()
+    algos.yellow_edges()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
