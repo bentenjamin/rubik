@@ -6,14 +6,27 @@ import solve
 def main():
     args = sys.argv
     debug = False
+    pretty_print = False
     i = 0
-    #check for -v (debug) or too many args
-    if len(args) == 3:
+    #check for -v (debug) -p (pretty print) or too many args
+    if len(args) == 3 or len(args) == 4:
         while i < len(args):
             if args[i] == "-v":
                 debug = True
+                if prety_print == True:
+                    print("invalid number/type of arguments")
+                    return False
                 del args[i]
-                break
+                i = 0
+                continue
+            elif args[i] == "-p":
+                pretty_print = True
+                if debug == True:
+                    print("invalid number/type of arguments")
+                    return False
+                del args[i]
+                i = 0
+                continue
             i += 1
         else:
             print("invalid number/type of arguments")
@@ -68,5 +81,15 @@ def run_cube(cube, moves, scramble, debug):
         print("Moves used to scramble cube : ", *moves)
     print(cube)
     solve.solve(cube)
+    print("Solved Cube:", cube)
+    print("Number of moves taken: {}".format(len(algos.moves)))
+    print("Solution:", *algos.moves)
+
+def average_100(number):
+    i = 0
+    demo_cube = cube.Cube()
+    while i < 100:
+        demo_cube.scramble(int(number))
+        solve.solve(demo_cube)
 
 main()

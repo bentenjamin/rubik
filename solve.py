@@ -338,6 +338,4 @@ def solve(cube):
     algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
-    print("Solved Cube:", cube)
-    print("Number of moves taken: {}".format(len(algos.moves)))
-    print("Solution:", *algos.moves)
+    
