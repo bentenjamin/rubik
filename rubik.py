@@ -9,12 +9,12 @@ def main():
     pretty_print = False
     i = 0
     #check for -v (debug) -p (pretty print) or too many args
-    if len(args) == 3 or len(args) == 4:
+    if len(args) == 3:
         while i < len(args):
             if args[i] == "-v":
                 debug = True
-                if prety_print == True:
-                    print("invalid number/type of arguments")
+                if pretty_print == True:
+                    print("invalid number or type of arguments")
                     return False
                 del args[i]
                 i = 0
@@ -22,17 +22,14 @@ def main():
             elif args[i] == "-p":
                 pretty_print = True
                 if debug == True:
-                    print("invalid number/type of arguments")
+                    print("invalid number of type of arguments")
                     return False
                 del args[i]
                 i = 0
                 continue
             i += 1
-        else:
-            print("invalid number/type of arguments")
-            return False
     if len(args) != 2:
-        print("invalid number/type of arguments")
+        print("invalid number and type of arguments")
         return False
 
     #allow user to choose how long the scramble is
@@ -50,6 +47,14 @@ def main():
         demo_cube = cube.Cube()
         print("Starting Cube:", demo_cube)
         run_cube(demo_cube, demo_cube.scramble(20), 1, debug)
+
+    #runs the scramble 100 times with given amount of moves
+    elif sys.argv[1] == "-avg":
+        number = input("How many moves would you like to scramble? ")
+        while not helper.is_int(number):
+            print("please provide a positive integer number for how many moves you want generated")
+            number = input("How many moves would you like to scramble? ")
+        average_100(number, debug)
 
     #take user input for how to scramble the cube
     else:
@@ -80,16 +85,33 @@ def run_cube(cube, moves, scramble, debug):
         cube.do_moves(moves)
         print("Moves used to scramble cube : ", *moves)
     print(cube)
-    solve.solve(cube)
+    sln_moves = solve.solve(cube)
     print("Solved Cube:", cube)
-    print("Number of moves taken: {}".format(len(algos.moves)))
-    print("Solution:", *algos.moves)
+    if len(sln_moves) == 0:
+        print("Cube already solved, no moves used.")
+    else:
+        print("Number of moves taken: {}".format(len(sln_moves)))
+        print("Solution:", *sln_moves)
 
-def average_100(number):
+#function to run a bunch of random scrambles of specified length of moves 
+# 100 times and find the average amount of moves taken to solve
+def average_100(number, debug):
     i = 0
+    moves_no = []
+    sln_moves = []
     demo_cube = cube.Cube()
+    if debug:
+        cube.debug = True
     while i < 100:
         demo_cube.scramble(int(number))
-        solve.solve(demo_cube)
+        sln_moves = solve.solve(demo_cube)
+        moves_no.append(len(sln_moves))
+        i += 1 
+    i = 0 
+    total = 0
+    while i < 100:
+        total += moves_no[i]
+        i += 1
+    print("average number of moves used over 100 runs is: {}".format(total/100))
 
 main()

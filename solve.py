@@ -279,9 +279,7 @@ def move_translator(face, moves):
 
 def solve(cube):
     if cube.is_solved():
-        print("cube already solved, no solution needed")
-        exit()
-
+        return ([])
     algos = Algos(cube)
 
     algos.cross()
@@ -293,4 +291,4 @@ def solve(cube):
     algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
-    
+    return (algos.moves)
