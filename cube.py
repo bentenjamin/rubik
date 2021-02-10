@@ -113,6 +113,7 @@ class Cube:
                 {cs(c[0][0][0].colours[1], self.cols[c[0][0][0].colours[1]])} {cs(c[1][0][0].colours[1], self.cols[c[1][0][0].colours[1]])} {cs(c[2][0][0].colours[1], self.cols[c[2][0][0].colours[1]])}"""
         return string
 
+    #returns the colours from lists of xyz (selects only the colours that need to move as the face rotates)
     def get_colour_indexs(self, lists):
         colours = []
         for i in range(3):
@@ -120,6 +121,7 @@ class Cube:
                 colours.append(i)
         return colours
 
+    #rotates a face on the cube using x,y,z ranges and a rotation matrix to calculate new positions
     def rot_face(self, move_conf):
         c = self.cube
         xrng, yrng, zrng, rot_matrix = move_conf
@@ -156,7 +158,7 @@ class Cube:
         for move in moves:
             self.exe_move(move)
 
-    #
+    # takes in a number x and randomly chooses x moves to apply to the cube to scramble it
     def scramble(self, moves):
         moves_list = []
         for i in range(moves):
@@ -165,6 +167,7 @@ class Cube:
             self.exe_move(new_move)
         return moves_list
 
+    #locates a cubie using its colours and returns its location using indices
     def find_cubie(self, colours):
         c = self.cube
         for x in range(3):
@@ -174,6 +177,7 @@ class Cube:
                         return c[x][y][z]
         return c[0][0][0]
 
+    #checks if the cube is solved using the colours on a face
     def is_solved(self):
         faces = ["F", "B", "U", "D", "L", "R"]
         colours = []
@@ -184,20 +188,16 @@ class Cube:
                 return False
         return True
 
-
+#class of the 26 cubies in the 3x3 cube
 class Cubie:
     # x face y face z face colours
     colours = ['N' for x in range(3)]
 
+    #constructor to create a cubie with colours and xyz location
     def __init__(self, colours, point):
         self.colours = colours
         self.point = point
 
-    def print_me(self):
-        string = ''
-        for x in self.colours:
-            string += x
-        return string
-
+    # returns the coords of a cubie
     def get_coords(self):
         return (self.point[0], self.point[1], self.point[2])

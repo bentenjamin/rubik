@@ -7,6 +7,7 @@ def main():
     args = sys.argv
     debug = False
     i = 0
+    #check for -v (debug) or too many args
     if len(args) == 3:
         while i < len(args):
             if args[i] == "-v":
@@ -21,7 +22,7 @@ def main():
         print("invalid number/type of arguments")
         return False
 
-    #allow user to choose how  long the scramble is
+    #allow user to choose how long the scramble is
     if sys.argv[1] == "-r":
         number = input("How many moves would you like to scramble? ")
         while not helper.is_int(number):
