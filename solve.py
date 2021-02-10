@@ -67,55 +67,6 @@ Back = {
 
 
 class Algos:
-    # get the side of the correlated coords [x, z]
-    coord_to_side = {
-        (1, 0): "B",
-        (0, 1): "L",
-        (2, 1): "R",
-        (1, 2): "F"
-    }
-
-    # colour to cooord: tuple of x and z of the face
-    c_t_c = {
-        "O": (1, 0),
-        "G": (0, 1),
-        "B": (2, 1),
-        "R": (1, 2)
-    }
-
-    side_to_coord = {
-        "B": (1, 0),
-        "L": (0, 1),
-        "R": (2, 1),
-        "F": (1, 2)
-    }
-
-    side_colour = {
-        "F": "R",
-        "B": "O",
-        "L": "G",
-        "R": "B",
-        "U": "W",
-        "D": "Y"
-    }
-
-    # colour to side
-    c_t_s = {
-        "R": "F",
-        "O": "B",
-        "G": "L",
-        "B": "R",
-        "W": "U",
-        "Y": "D"
-    }
-
-    right_col_of_face = {
-        (0, 0): "O",
-        (0, 2): "G",
-        (2, 0): "B",
-        (2, 2): "R"
-    }
-
     lor_face_of_col = {
         (0, 0, "l"): "O",
         (0, 0, "r"): "G",
@@ -139,6 +90,9 @@ class Algos:
 
     def get_edge_colour(self, cubie):
         return [x for x in cubie.colours if x not in "NWY"][0]
+
+    def get_other_colour(self, cubie, exclude):
+        return [x for x in cubie.colours if x not in "N" + exclude][0]
 
     def write_exe_moves(self, moves):
         self.moves.extend(moves)
@@ -174,9 +128,9 @@ class Algos:
                 self.write_exe_moves(move_translator(
                     self.get_edge_colour(cubie), "F' U' R U".split()))
 
-    def white_corner_helper(self, xy, moves):
+    def white_corner_helper(self, x, z, moves):
         self.write_exe_moves(move_translator(
-            self.right_col_of_face[xy], moves))
+            self.lor_face_of_col[(x, z, "l")], moves))
 
     def white_corners(self):
         for x in [0, 2]:
@@ -187,18 +141,18 @@ class Algos:
                     if (cubie.colours[1] == "W") and (self.cube.cube[x][2][z] is cubie):
                         continue
                     self.white_corner_helper(
-                        (cubie.point[0], cubie.point[2]), ["R'", "D'", "R"])
+                        cubie.point[0], cubie.point[2], ["R'", "D'", "R"])
 
                 while not ((cubie.point[0] == x) and (cubie.point[2] == z)):
                     self.write_exe_moves(['D'])
 
                 if cubie.colours[1] == "W":
-                    self.white_corner_helper((x, z), ["R'", "D", "R", "D2"])
+                    self.white_corner_helper(x, z, ["R'", "D", "R", "D2"])
 
                 if (cubie.colours[2] == "W" and x == z) or (cubie.colours[0] == "W" and x != z):
-                    self.white_corner_helper((x, z), ["F", "D", "F'"])
+                    self.white_corner_helper(x, z, ["F", "D", "F'"])
                 else:
-                    self.white_corner_helper((x, z), ["R'", "D'", "R"])
+                    self.white_corner_helper(x, z, ["R'", "D'", "R"])
 
     def middle_edges(self):
         ROT_XZ_CW = np.array([[0, 0, -1],
@@ -214,23 +168,23 @@ class Algos:
                     # if (self.c[x][2][z] is cubie) and (cubie.point[0] == self.c[1][1][z]):
                     #     continue
                     self.white_corner_helper(
-                        (cubie.point[0], cubie.point[2]), ["R'", "D", "R", "D", "F", "D'", "F'"])
+                        cubie.point[0], cubie.point[2], ["R'", "D", "R", "D", "F", "D'", "F'"])
 
-                # cubie colour
-                cc = cubie.colours[2 if cubie.point[0] == 1 else 0]
-                while cc != self.c[cubie.point[0]][1][cubie.point[2]].colours[2 if cubie.point[0] == 1 else 0]:
+                # align cubie with centre
+                while self.get_other_colour(cubie, cubie.colours[1]) != self.get_center_colour(self.c[cubie.point[0]][1][cubie.point[2]]):
                     self.write_exe_moves(['D'])
-                    cc = cubie.colours[2 if cubie.point[0] == 1 else 0]
 
-                # right center
+                # get point of center on the right of the current face
                 rc = np.dot(
                     [cubie.point[0] - 1, 0, cubie.point[2] - 1], ROT_XZ_CW)
-                if cubie.colours[1] == self.c[rc[0] + 1][1][rc[2] + 1].colours[0 if cubie.point[0] == 1 else 2]:
-                    self.write_exe_moves(move_translator(
-                        cc, ["D'", "R'", "D", "R", "D", "F", "D'", "F'"]))
+
+                # move edge into correct slot
+                if cubie.colours[1] == self.get_center_colour(self.c[rc[0] + 1][1][rc[2] + 1]):
+                    moves = ["D'", "R'", "D", "R", "D", "F", "D'", "F'"]
                 else:
-                    self.write_exe_moves(move_translator(
-                        cc, ["D", "L", "D'", "L'", "D'", "F'", "D", "F"]))
+                    moves = ["D", "L", "D'", "L'", "D'", "F'", "D", "F"]
+                self.write_exe_moves(move_translator(
+                    self.get_other_colour(cubie, cubie.colours[1]), moves))
 
     def yellow_cross(self):
         if not (self.c[1][0][0].colours[1] == "Y" and self.c[1][0][2].colours[1] == "Y" and self.c[0][0][1].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
@@ -331,12 +285,12 @@ def solve(cube):
     algos = Algos(cube)
 
     algos.cross()
-    # algos.white_corners()
-    # algos.middle_edges()
-    # algos.yellow_cross()
-    # algos.yellow_edges()
-    # algos.yellow_corner_setup()
-    # algos.yellow_corner_rot()
+    algos.white_corners()
+    algos.middle_edges()
+    algos.yellow_cross()
+    algos.yellow_edges()
+    algos.yellow_corner_setup()
+    algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
