@@ -286,6 +286,13 @@ class Algos:
             self.write_exe_moves(move_translator(self.lor_face_of_col[correct_cubies[0][0], correct_cubies[0][1], "l"] if len(correct_cubies) == 1 else "F", ["D'", "R'", "D", "L", "D'", "R", "D", "L'"]))
             correct_cubies = self.check_yellow_corners()
 
+    def yellow_corner_rot(self):
+        for i in range(4):
+            while self.c[2][0][2].colours[1] != "Y":
+                self.write_exe_moves(["R", "U", "R'", "U'"])
+            self.write_exe_moves(["D"])
+
+
                 
 # up and down not included here
 
@@ -324,6 +331,7 @@ def solve(cube):
     algos.yellow_cross()
     algos.yellow_edges()
     algos.yellow_corner_setup()
+    algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
