@@ -27,15 +27,3 @@ python rubik.py "example list of moves"
 
 python rubik.py -v "other instruction"
 - only called with one of the other above arguments, cannot run on its own. will produce a step by step process of the algorithms used and the state of the cube after each algorithm in a 2D layout.
-
-# notes
-algo - Kociemba/2-Phase Algorithm
-objects or matricies for storage
-time limit 1 hour
-
-# todo
-graphic representation
-live visual
-multiple algos?
-mix generator with (default and custom)
-human readable output of steps

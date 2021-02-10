@@ -81,9 +81,13 @@ def run_cube(cube, moves, scramble, debug):
         cube.debug = True
     if scramble:
         print("Moves used to scramble cube : ", *moves)
+        # moves = ",".join(moves)
+        # print("Moves used to scramble cube : ", moves)
     else:
         cube.do_moves(moves)
         print("Moves used to scramble cube : ", *moves)
+        # moves = ",".join(moves)
+        # print("Moves used to scramble cube : ", moves)
     print(cube)
     sln_moves = solve.solve(cube)
     print("Solved Cube:", cube)
@@ -92,6 +96,8 @@ def run_cube(cube, moves, scramble, debug):
     else:
         print("Number of moves taken: {}".format(len(sln_moves)))
         print("Solution:", *sln_moves)
+        # sln_moves = ",".join(sln_moves)
+        # print("Solution:", sln_moves)
 
 #function to run a bunch of random scrambles of specified length of moves 
 # 100 times and find the average amount of moves taken to solve
@@ -102,16 +108,16 @@ def average_100(number, debug):
     demo_cube = cube.Cube()
     if debug:
         cube.debug = True
-    while i < 100:
+    while i < 10:
         demo_cube.scramble(int(number))
         sln_moves = solve.solve(demo_cube)
         moves_no.append(len(sln_moves))
         i += 1 
     i = 0 
     total = 0
-    while i < 100:
+    while i < 10:
         total += moves_no[i]
         i += 1
-    print("average number of moves used over 100 runs is: {}".format(total/100))
+    print("average number of moves used over 100 runs is: {}".format(total/10))
 
 main()

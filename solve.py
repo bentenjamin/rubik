@@ -2,6 +2,7 @@ import helper
 import cube
 from cube import np
 
+#dicts for translating moves relative to front face
 Right = {
     "D": "D",
     "U": "U",
@@ -78,8 +79,8 @@ class Algos:
         (2, 2, "r"): "B"
     }
 
+    #constructor to setup cube and moves and determine if debug needed
     def __init__(self, cube):
-        # self.cube = c
         self.cube = cube
         self.c = cube.cube
         self.moves = []
@@ -94,6 +95,7 @@ class Algos:
     def get_other_colour(self, cubie, exclude):
         return [x for x in cubie.colours if x not in "N" + exclude][0]
 
+    #adds the moves to solve the cube to a list and executes the moves on the cube.
     def write_exe_moves(self, moves):
         self.moves.extend(moves)
         self.cube.do_moves(moves)
@@ -101,6 +103,7 @@ class Algos:
             print(*moves)
             print(self.cube)
 
+    #solves the first step: the white cross
     def cross(self):
         c = self.c
         for x, z in [(1, 0), (0, 1), (2, 1), (1, 2)]:
@@ -128,10 +131,12 @@ class Algos:
                 self.write_exe_moves(move_translator(
                     self.get_edge_colour(cubie), "F' U' R U".split()))
 
+    #helper function for white corners, executes the translated moves relative to the xz position of the cubie
     def white_corner_helper(self, x, z, moves):
         self.write_exe_moves(move_translator(
             self.lor_face_of_col[(x, z, "l")], moves))
 
+    #solves the second step: the white corners on the white face
     def white_corners(self):
         for x in [0, 2]:
             for z in [0, 2]:
@@ -154,6 +159,7 @@ class Algos:
                 else:
                     self.white_corner_helper(x, z, ["R'", "D'", "R"])
 
+    #third section to solve, the middle layer edges in the correct spots
     def middle_edges(self):
         ROT_XZ_CW = np.array([[0, 0, -1],
                               [0, 1, 0],
@@ -186,6 +192,7 @@ class Algos:
                 self.write_exe_moves(move_translator(
                     self.get_other_colour(cubie, cubie.colours[1]), moves))
 
+    #fourth step of the solve, the yellow cross on the bottom layer
     def yellow_cross(self):
         if not (self.c[1][0][0].colours[1] == "Y" and self.c[1][0][2].colours[1] == "Y" and self.c[0][0][1].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
             if not (self.c[1][0][0].colours[1] == self.c[1][0][2].colours[1] or self.c[0][0][1].colours[1] == self.c[2][0][1].colours[1]):
@@ -200,6 +207,7 @@ class Algos:
             if self.c[1][0][2].colours[1] != "Y":
                 self.write_exe_moves(["F", "L", "D", "L'", "D'", "F'"])
 
+    #5th step, make sure the yellow edges are in the correct spots
     def yellow_edges(self):
         opposite_colour = {
             "O": "R",
@@ -228,6 +236,7 @@ class Algos:
             while self.c[1][1][2].colours[2] != self.c[1][0][2].colours[2]:
                 self.write_exe_moves(["D"])
 
+    #check to see if the yellow corners are in the correct spot 
     def check_yellow_corners(self):
         yes_cubies = []
         for x in [0, 2]:
@@ -237,6 +246,7 @@ class Algos:
 
         return yes_cubies
 
+    #6th step in solve, moves the yellow cubies to the correct positions
     def yellow_corner_setup(self):
 
         correct_cubies = self.check_yellow_corners()
@@ -246,16 +256,14 @@ class Algos:
                 correct_cubies) == 1 else "F", ["D'", "R'", "D", "L", "D'", "R", "D", "L'"]))
             correct_cubies = self.check_yellow_corners()
 
+    #7th step in solve, makes sure yellow cubies are in the correct orientation
     def yellow_corner_rot(self):
         for i in range(4):
             while self.c[2][0][2].colours[1] != "Y":
                 self.write_exe_moves(["R", "U", "R'", "U'"])
             self.write_exe_moves(["D"])
 
-
-# up and down not included here
-
-
+#translates moves from front face to other x/z faces using dicts
 def move_translator(face, moves):
     new_moves = []
     for move in moves:
@@ -274,9 +282,7 @@ def move_translator(face, moves):
             new_moves.append(move)
     return(new_moves)
 
-# print(move_translator("L", "R'"))
-
-
+#calls all the solving algorithms to solve the vrious stages of the cube
 def solve(cube):
     if cube.is_solved():
         return ([])
