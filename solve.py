@@ -215,6 +215,19 @@ class Algos:
                     self.write_exe_moves(move_translator(
                         cc, ["D", "L", "D'", "L'", "D'", "F'", "D", "F"]))
 
+    def yellow_cross(self):
+        if not (self.c[1][0][0].colours[1] == "Y" and self.c[1][0][2].colours[1] == "Y" and self.c[0][0][1].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
+            if not (self.c[1][0][0].colours[1] == self.c[1][0][2].colours[1] or self.c[0][0][1].colours[1] == self.c[2][0][1].colours[1]):
+                if self.c[1][0][0].colours[1] == "Y" or self.c[1][0][2].colours[1] == "Y":
+                    while not (self.c[1][0][0].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
+                        self.write_exe_moves(["D"])
+                self.write_exe_moves(["F", "L", "D", "L'", "D'", "L", "D", "L'", "D'", "F'", "D"])
+            elif self.c[1][0][2].colours[1] == "Y":
+                self.write_exe_moves(["D"])
+            
+            if self.c[1][0][2].colours[1] != "Y":
+                self.write_exe_moves(["F", "L", "D", "L'", "D'", "F'"])
+        
 # up and down not included here
 
 
@@ -249,6 +262,7 @@ def solve(cube):
     algos.cross()
     algos.white_corners()
     algos.middle_edges()
+    algos.yellow_cross()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
