@@ -66,7 +66,7 @@ class Cube:
         "L": [[0], [0, 1, 2], [0, 1, 2], 0],
         "R": [[2], [0, 1, 2], [0, 1, 2], 0],
     }
-
+    #constructor for the cube object which stores the cubies
     def __init__(self):
         c = self.cube
         self.debug = False
@@ -81,6 +81,7 @@ class Cube:
                     self.cube[x][y][z] = Cubie(colours, point)
                     self.pieces[x][y][z] = self.cube[x][y][z]
 
+    #returns the colours on a chosen face
     def get_face(self, xrng, yrng, zrng, face):
         c = self.cube
 
@@ -93,20 +94,11 @@ class Cube:
                     i += 1
         return out
 
-    def print_up(self):
-        string = ''
-        c = self.cube
-        for z in range(3):
-            string += "       "
-            for x in range(3):
-                string += f"{c[x][2][z].colours[1]} "
-            string += "\n"
-
-        print(string)
-
+    #dict for adding the colours to the cube display in terminal
     cols = {'B': "blue", 'R': "red", 'G': "green",
             'O': "DarkOrange", 'W': "white", 'Y': "Yellow4"}
 
+    #tostring function which prints the cube object in a reader friendly view in the terminal
     def __str__(self):
         c = self.cube
         string = f"""
@@ -123,11 +115,9 @@ class Cube:
 
     def get_colour_indexs(self, lists):
         colours = []
-
         for i in range(3):
             if len(lists[i]) > 1:
                 colours.append(i)
-
         return colours
 
     def rot_face(self, move_conf):
@@ -153,16 +143,19 @@ class Cube:
                 for z in zrng:
                     c[x][y][z] = trans[x][y][z]
 
+    #takes in a move and executes it using the rot_face function
     def exe_move(self, move):
         if "2" in move:
             move = move[:1]
             self.rot_face(self.move_config[move])
         self.rot_face(self.move_config[move])
 
+    #applies list of moves and calls function to execute them
     def do_moves(self, moves):
         for move in moves:
             self.exe_move(move)
 
+    #
     def scramble(self, moves):
         moves_list = []
         for i in range(moves):
