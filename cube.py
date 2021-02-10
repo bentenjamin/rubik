@@ -69,6 +69,7 @@ class Cube:
 
     def __init__(self):
         c = self.cube
+        self.debug = False
         for x in range(3):
             for y in range(3):
                 for z in range(3):
@@ -145,7 +146,8 @@ class Cube:
                     tc = trans[matrix[0]][matrix[1]][matrix[2]].colours
                     tc[c_i[0]], tc[c_i[1]] = tc[c_i[1]], tc[c_i[0]]
 
-                    trans[matrix[0]][matrix[1]][matrix[2]].point = [matrix[0], matrix[1], matrix[2]]
+                    trans[matrix[0]][matrix[1]][matrix[2]].point = [
+                        matrix[0], matrix[1], matrix[2]]
 
         for x in xrng:
             for y in yrng:
@@ -189,17 +191,6 @@ class Cube:
                 return False
         return True
 
-    # def get_face(self, xrng, yrng, zrng, face):
-    #     c = self.cube
-
-    #     out = ['N' for x in range(9)]
-    #     i = 0
-    #     for x in xrng:
-    #         for y in yrng:
-    #             for z in zrng:
-    #                 out[i] = self.cube[x][y][z].colours[face]
-    #                 i += 1
-    #     return out
 
 class Cubie:
     # x face y face z face colours
@@ -214,14 +205,6 @@ class Cubie:
         for x in self.colours:
             string += x
         return string
-    
+
     def get_coords(self):
         return (self.point[0], self.point[1], self.point[2])
-
-
-
-# algos = Algos(cube)
-# cube.scramble(20)
-# cube.do_moves(test_moves)
-# cube.do_moves(sys.argv[1])
-# print(cube)
