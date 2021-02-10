@@ -123,6 +123,9 @@ class Algos:
         self.moves = []
         self.debug = cube.debug
 
+    def get_center_colour(self, cubie):
+        return [x for x in cubie.colours if x not in "N"][0]
+
     def write_exe_moves(self, moves):
         self.moves.extend(moves)
         self.cube.do_moves(moves)
@@ -223,13 +226,14 @@ class Algos:
                 if self.c[1][0][0].colours[1] == "Y" or self.c[1][0][2].colours[1] == "Y":
                     while not (self.c[1][0][0].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
                         self.write_exe_moves(["D"])
-                self.write_exe_moves(["F", "L", "D", "L'", "D'", "L", "D", "L'", "D'", "F'", "D"])
+                self.write_exe_moves(
+                    ["F", "L", "D", "L'", "D'", "L", "D", "L'", "D'", "F'", "D"])
             elif self.c[1][0][2].colours[1] == "Y":
                 self.write_exe_moves(["D"])
-            
+
             if self.c[1][0][2].colours[1] != "Y":
                 self.write_exe_moves(["F", "L", "D", "L'", "D'", "F'"])
-    
+
     def yellow_edges(self):
         opposite_colour = {
             "O": "R",
@@ -248,7 +252,8 @@ class Algos:
             if (opposite_colour[self.c[1][0][0].colours[2]] == self.c[1][0][2].colours[2] or opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]):
                 if opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]:
                     self.write_exe_moves(["D"])
-                self.write_exe_moves(["L", "D", "L'", "D", "L", "D", "D", "L'"])
+                self.write_exe_moves(
+                    ["L", "D", "L'", "D", "L", "D", "D", "L'"])
 
             while adj_colour[self.c[0][0][1].colours[0]] != self.c[1][0][0].colours[2]:
                 self.write_exe_moves(["D"])
@@ -256,7 +261,43 @@ class Algos:
 
             while self.c[1][1][2].colours[2] != self.c[1][0][2].colours[2]:
                 self.write_exe_moves(["D"])
-                
+
+    def check_yellow_corners(self):
+        yes_cubies = []
+        for x in [0, 2]:
+            for z in [0, 2]:
+                if self.get_center_colour(self.c[x][1][1]) in self.c[x][0][z].colours and self.get_center_colour(self.c[1][1][z]) in self.c[x][0][z].colours:
+                    yes_cubies.append((x, z))
+
+        return yes_cubies
+
+    lor_face_of_col = {
+        (0, 0, "l"): "O",
+        (0, 0, "r"): "G",
+        (0, 2, "l"): "G",
+        (0, 2, "r"): "R",
+        (2, 0, "l"): "B",
+        (2, 0, "r"): "O",
+        (2, 2, "l"): "R",
+        (2, 2, "r"): "B"
+    }
+
+    def yellow_corner_setup(self):
+
+        correct_cubies = self.check_yellow_corners()
+
+        while len(correct_cubies) != 4:
+            self.write_exe_moves(move_translator(self.lor_face_of_col[correct_cubies[0][0], correct_cubies[0][1], "l"] if len(
+                correct_cubies) == 1 else "F", ["D'", "R'", "D", "L", "D'", "R", "D", "L'"]))
+            correct_cubies = self.check_yellow_corners()
+
+    def yellow_corner_rot(self):
+        for i in range(4):
+            while self.c[2][0][2].colours[1] != "Y":
+                self.write_exe_moves(["R", "U", "R'", "U'"])
+            self.write_exe_moves(["D"])
+
+
 # up and down not included here
 
 
@@ -293,6 +334,8 @@ def solve(cube):
     algos.middle_edges()
     algos.yellow_cross()
     algos.yellow_edges()
+    algos.yellow_corner_setup()
+    algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)

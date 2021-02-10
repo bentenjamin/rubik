@@ -136,7 +136,8 @@ class Cube:
                     tc = trans[matrix[0]][matrix[1]][matrix[2]].colours
                     tc[c_i[0]], tc[c_i[1]] = tc[c_i[1]], tc[c_i[0]]
 
-                    trans[matrix[0]][matrix[1]][matrix[2]].point = [matrix[0], matrix[1], matrix[2]]
+                    trans[matrix[0]][matrix[1]][matrix[2]].point = [
+                        matrix[0], matrix[1], matrix[2]]
 
         for x in xrng:
             for y in yrng:
@@ -183,6 +184,7 @@ class Cube:
                 return False
         return True
 
+
 class Cubie:
     # x face y face z face colours
     colours = ['N' for x in range(3)]
@@ -196,3 +198,6 @@ class Cubie:
         for x in self.colours:
             string += x
         return string
+
+    def get_coords(self):
+        return (self.point[0], self.point[1], self.point[2])
