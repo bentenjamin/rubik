@@ -116,6 +116,17 @@ class Algos:
         (2, 2): "R"
     }
 
+    lor_face_of_col = {
+        (0, 0, "l"): "O",
+        (0, 0, "r"): "G",
+        (0, 2, "l"): "G",
+        (0, 2, "r"): "R",
+        (2, 0, "l"): "B",
+        (2, 0, "r"): "O",
+        (2, 2, "l"): "R",
+        (2, 2, "r"): "B"
+    }
+
     def __init__(self, cube):
         # self.cube = c
         self.cube = cube
@@ -126,6 +137,9 @@ class Algos:
     def get_center_colour(self, cubie):
         return [x for x in cubie.colours if x not in "N"][0]
 
+    def get_edge_colour(self, cubie):
+        return [x for x in cubie.colours if x not in "NWY"][0]
+
     def write_exe_moves(self, moves):
         self.moves.extend(moves)
         self.cube.do_moves(moves)
@@ -135,32 +149,30 @@ class Algos:
 
     def cross(self):
         c = self.c
-
-        for colour in ["R", "B", "O", "G"]:
-            cubie = self.cube.find_cubie([colour, "W", "N"])
+        for x, z in [(1, 0), (0, 1), (2, 1), (1, 2)]:
+            cubie = self.cube.pieces[x][2][z]
 
             # if cubie is on the white face
             if (cubie.point[1] == 2):
-                # if (cubie.colours[1] == "W") and (self.cube.cube[x][2][z] is cubie):
-                #         continue
+                if (cubie.colours[1] == "W") and (self.c[x][2][z] is cubie):
+                    continue
                 self.write_exe_moves(
-                    [self.coord_to_side[(cubie.point[0], cubie.point[2])] + "2"])
+                    [move_translator(self.get_center_colour(self.c[cubie.point[0]][1][cubie.point[2]]), ["F"])[0] + "2"])
+
             # if cubie is in the middle
             if (cubie.point[1] == 1):
-                # this is borked need to find which face it is on
                 self.write_exe_moves(move_translator(
-                    self.right_col_of_face[(cubie.point[0], cubie.point[2])], ["F", "D", "F'"]))
-            # change to use point
-            center = self.c[(self.c_t_c[colour])[0]
-                            ][1][(self.c_t_c[colour])[1]]
-            # change to use point
-            while not self.c[self.c_t_c[colour][0]][0][self.c_t_c[colour][1]] == cubie:
+                    self.lor_face_of_col[(cubie.point[0], cubie.point[2], "l")], ["F", "D", "F'"]))
+
+            while self.get_edge_colour(cubie) != self.get_center_colour(self.c[cubie.point[0]][1][cubie.point[2]]):
                 self.write_exe_moves(["D"])
+
             if cubie.colours[1] == "W":
-                self.write_exe_moves([move_translator(colour, "F")[0] + "2"])
+                self.write_exe_moves(
+                    [move_translator(self.get_edge_colour(cubie), "F")[0] + "2"])
             else:
                 self.write_exe_moves(move_translator(
-                    colour, "F' U' R U".split()))
+                    self.get_edge_colour(cubie), "F' U' R U".split()))
 
     def white_corner_helper(self, xy, moves):
         self.write_exe_moves(move_translator(
@@ -271,17 +283,6 @@ class Algos:
 
         return yes_cubies
 
-    lor_face_of_col = {
-        (0, 0, "l"): "O",
-        (0, 0, "r"): "G",
-        (0, 2, "l"): "G",
-        (0, 2, "r"): "R",
-        (2, 0, "l"): "B",
-        (2, 0, "r"): "O",
-        (2, 2, "l"): "R",
-        (2, 2, "r"): "B"
-    }
-
     def yellow_corner_setup(self):
 
         correct_cubies = self.check_yellow_corners()
@@ -330,12 +331,12 @@ def solve(cube):
     algos = Algos(cube)
 
     algos.cross()
-    algos.white_corners()
-    algos.middle_edges()
-    algos.yellow_cross()
-    algos.yellow_edges()
-    algos.yellow_corner_setup()
-    algos.yellow_corner_rot()
+    # algos.white_corners()
+    # algos.middle_edges()
+    # algos.yellow_cross()
+    # algos.yellow_edges()
+    # algos.yellow_corner_setup()
+    # algos.yellow_corner_rot()
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
