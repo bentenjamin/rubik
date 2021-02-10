@@ -214,6 +214,9 @@ class Cubie:
         for x in self.colours:
             string += x
         return string
+    
+    def get_coords(self):
+        return (self.point[0], self.point[1], self.point[2])
 
 
 
