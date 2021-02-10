@@ -30,3 +30,6 @@ python rubik.py -d
 
 python rubik.py "example list of moves"
 - scrambles the cube and prints the scrambled cube
+
+python rubik.py -v "other instruction"
+- only called with one of the other above arguments, cannot run on its own. will produce a step by step process of the algorithms used and the state of the cube after each algorithm in a 2D layout.

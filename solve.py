@@ -121,12 +121,14 @@ class Algos:
         self.cube = cube
         self.c = cube.cube
         self.moves = []
+        self.debug = cube.debug
 
     def write_exe_moves(self, moves):
         self.moves.extend(moves)
         self.cube.do_moves(moves)
-        print(moves)
-        print(self.cube)
+        if self.debug == True:
+            print(*moves)
+            print(self.cube)
 
     def cross(self):
         c = self.c
@@ -252,4 +254,5 @@ def solve(cube):
 
     algos.moves = helper.optimise_all(algos.moves)
     print("Solved Cube:", cube)
+    print("Number of moves taken: {}".format(len(algos.moves)))
     print("Solution:", *algos.moves)
