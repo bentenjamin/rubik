@@ -18,15 +18,6 @@ def main():
                     return False
                 del args[i]
                 i = 0
-                continue
-            elif args[i] == "-p":
-                pretty_print = True
-                if debug == True:
-                    print("invalid number of type of arguments")
-                    return False
-                del args[i]
-                i = 0
-                continue
             i += 1
     if len(args) != 2:
         print("invalid number and type of arguments")
