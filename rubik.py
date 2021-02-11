@@ -116,10 +116,11 @@ def pretty_print():
     time.sleep(1)
     for move in scramble:
         display_cube.exe_move(move)
-        string = str(display_cube)
-        string += "\nScrambling...  " + move
+
         print(" \033[H\033[J")
-        print(string)
+        print(display_cube)
+        print("\nScrambling...  " + move)
+
         time.sleep(sleep_time)
     
     print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
@@ -129,10 +130,11 @@ def pretty_print():
 
     for move in moves:
         display_cube.exe_move(move)
-        string = str(display_cube)
-        string += "\nSolving...  \nExecuted move: " + move
+
         print(" \033[H\033[J")
-        print(string)
+        print(display_cube)
+        print("Solving...  \nExecuted move: " + move)
+
         time.sleep(sleep_time)
     
     print("")
