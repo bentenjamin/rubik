@@ -2,6 +2,7 @@ import sys
 import helper
 import cube
 import solve
+import time
 
 def main():
     args = sys.argv
@@ -55,7 +56,9 @@ def main():
             print("please provide a positive integer number for how many moves you want generated")
             number = input("How many moves would you like to scramble? ")
         average_100(number, debug)
-
+    
+    elif sys.argv[1] == "-p":
+        pretty_print()
     #take user input for how to scramble the cube
     else:
         instructions = sys.argv[1]
@@ -107,11 +110,40 @@ def average_100(number, debug):
     demo_cube = cube.Cube()
     if debug:
         cube.debug = True
-    for i in range(1000):
+    for i in range(100):
         demo_cube.scramble(int(number))
         sln_moves = solve.solve(demo_cube)
         moves_no.append(len(sln_moves))
     total = sum(sln_moves)
     print("average number of moves used over 100 runs is: {}".format(total/10))
+
+def pretty_print():
+    sleep_time = 0.5
+    rube_cube = cube.Cube()
+    display_cube = cube.Cube()
+    scramble = rube_cube.scramble(20)
+    moves = solve.solve(rube_cube)
+
+    print(display_cube)
+    time.sleep(1)
+    for move in scramble:
+        display_cube.exe_move(move)
+        string = display_cube.__str__
+        string += "Scrambling...  " + move + " \033[H\033[J"
+        time.sleep(sleep_time)
+    
+    print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
+    print("Scrambled! Beep Boop calculating solution...")
+    print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
+    time.sleep(2)
+
+    for move in moves:
+        display_cube.exe_move(move)
+        string = display_cube.__str__
+        string += "Solving...  \nExecuted move: " + move + " \033[H\033[J"
+        time.sleep(sleep_time)
+    
+    print("")
+    print("Solved!")
 
 main()
