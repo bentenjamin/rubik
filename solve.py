@@ -68,6 +68,7 @@ Back = {
 
 
 class Algos:
+    # dict for getting the the face left or right of a piece in a corner
     lor_face_of_col = {
         (0, 0, "l"): "O",
         (0, 0, "r"): "G",
@@ -86,6 +87,7 @@ class Algos:
         self.moves = []
         self.debug = cube.debug
 
+    # get the colour that isnt N (for NULL) 
     def get_center_colour(self, cubie):
         return [x for x in cubie.colours if x not in "N"][0]
 
@@ -106,24 +108,30 @@ class Algos:
     #solves the first step: the white cross
     def cross(self):
         c = self.c
+
+        # iterate through all the white edges
         for x, z in [(1, 0), (0, 1), (2, 1), (1, 2)]:
             cubie = self.cube.pieces[x][2][z]
 
             # if cubie is on the white face
             if (cubie.point[1] == 2):
+                # skip if its in the right place
                 if (cubie.colours[1] == "W") and (self.c[x][2][z] is cubie):
                     continue
+                # move out of the top
                 self.write_exe_moves(
                     [move_translator(self.get_center_colour(self.c[cubie.point[0]][1][cubie.point[2]]), ["F"])[0] + "2"])
 
-            # if cubie is in the middle
+            # if cubie is in the middle move it out
             if (cubie.point[1] == 1):
                 self.write_exe_moves(move_translator(
                     self.lor_face_of_col[(cubie.point[0], cubie.point[2], "l")], ["F", "D", "F'"]))
 
+            # move cubie to the right colour
             while self.get_edge_colour(cubie) != self.get_center_colour(self.c[cubie.point[0]][1][cubie.point[2]]):
                 self.write_exe_moves(["D"])
 
+            # different algo for different orientation
             if cubie.colours[1] == "W":
                 self.write_exe_moves(
                     [move_translator(self.get_edge_colour(cubie), "F")[0] + "2"])
@@ -194,16 +202,23 @@ class Algos:
 
     #fourth step of the solve, the yellow cross on the bottom layer
     def yellow_cross(self):
+        # check if the cross is already done
         if not (self.c[1][0][0].colours[1] == "Y" and self.c[1][0][2].colours[1] == "Y" and self.c[0][0][1].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
+            # check if there is a line
             if not (self.c[1][0][0].colours[1] == self.c[1][0][2].colours[1] or self.c[0][0][1].colours[1] == self.c[2][0][1].colours[1]):
+                # check if its an L or dot
                 if self.c[1][0][0].colours[1] == "Y" or self.c[1][0][2].colours[1] == "Y":
+                    # orientate L
                     while not (self.c[1][0][0].colours[1] == "Y" and self.c[2][0][1].colours[1] == "Y"):
                         self.write_exe_moves(["D"])
+                # L -> cross, or dot to line
                 self.write_exe_moves(
                     ["F", "L", "D", "L'", "D'", "L", "D", "L'", "D'", "F'", "D"])
+            # orientate line
             elif self.c[1][0][2].colours[1] == "Y":
                 self.write_exe_moves(["D"])
 
+            # if line make cross
             if self.c[1][0][2].colours[1] != "Y":
                 self.write_exe_moves(["F", "L", "D", "L'", "D'", "F'"])
 
@@ -222,17 +237,25 @@ class Algos:
             "G": "O"
         }
 
+        # check if its already correct
         if not (opposite_colour[self.c[1][0][0].colours[2]] == self.c[1][0][2].colours[2] and adj_colour[self.c[1][0][2].colours[2]] == self.c[1][0][2].colours[2]):
+            #check if there is one pair of opposites
             if (opposite_colour[self.c[1][0][0].colours[2]] == self.c[1][0][2].colours[2] or opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]):
+                # orientate opposites
                 if opposite_colour[self.c[0][0][1].colours[0]] == self.c[2][0][1].colours[0]:
                     self.write_exe_moves(["D"])
+                # line -> L
                 self.write_exe_moves(
                     ["L", "D", "L'", "D", "L", "D", "D", "L'"])
 
+            # orientate L
             while adj_colour[self.c[0][0][1].colours[0]] != self.c[1][0][0].colours[2]:
                 self.write_exe_moves(["D"])
+            
+            # L to edges
             self.write_exe_moves(["L", "D", "L'", "D", "L", "D", "D", "L'"])
 
+            # line up edges, unneccesary but looks good
             while self.c[1][1][2].colours[2] != self.c[1][0][2].colours[2]:
                 self.write_exe_moves(["D"])
 
@@ -251,6 +274,7 @@ class Algos:
 
         correct_cubies = self.check_yellow_corners()
 
+        # reorder corners until they are in the right place
         while len(correct_cubies) != 4:
             self.write_exe_moves(move_translator(self.lor_face_of_col[correct_cubies[0][0], correct_cubies[0][1], "l"] if len(
                 correct_cubies) == 1 else "F", ["D'", "R'", "D", "L", "D'", "R", "D", "L'"]))
