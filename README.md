@@ -10,7 +10,7 @@ bottom layer cross
 bottom layer corners.
 
 in order to run this project you need to:
-install a colour library: pip install string-color
+install a colour library: pip install string-color numpy
 clone the repository and cd into the folder. 
 
 to run the project:
@@ -27,3 +27,9 @@ python rubik.py "example list of moves"
 
 python rubik.py -v "other instruction"
 - only called with one of the other above arguments, cannot run on its own. will produce a step by step process of the algorithms used and the state of the cube after each algorithm in a 2D layout.
+
+python rubik.py -avg
+- run 100 solves and give the average amount of moves
+
+python rubik.py -p
+- Pretty print. prints the cube and the move it executes as it solves

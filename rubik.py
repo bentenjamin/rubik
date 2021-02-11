@@ -2,6 +2,7 @@ import sys
 import helper
 import cube
 import solve
+import time
 
 def main():
     args = sys.argv
@@ -46,7 +47,9 @@ def main():
             print("please provide a positive integer number for how many moves you want generated")
             number = input("How many moves would you like to scramble? ")
         average_100(number, debug)
-
+    
+    elif sys.argv[1] == "-p":
+        pretty_print()
     #take user input for how to scramble the cube
     else:
         instructions = sys.argv[1]
@@ -93,22 +96,45 @@ def run_cube(cube, moves, scramble, debug):
 #function to run a bunch of random scrambles of specified length of moves 
 # 100 times and find the average amount of moves taken to solve
 def average_100(number, debug):
-    i = 0
     moves_no = []
     sln_moves = []
     demo_cube = cube.Cube()
     if debug:
         cube.debug = True
-    while i < 10:
+    for i in range(100):
         demo_cube.scramble(int(number))
         sln_moves = solve.solve(demo_cube)
         moves_no.append(len(sln_moves))
-        i += 1 
-    i = 0 
-    total = 0
-    while i < 10:
-        total += moves_no[i]
-        i += 1
+    total = sum(sln_moves)
     print("average number of moves used over 100 runs is: {}".format(total/10))
+
+def pretty_print():
+    sleep_time = 0.5
+    rube_cube = cube.Cube()
+    display_cube = cube.Cube()
+    scramble = rube_cube.scramble(20)
+    moves = solve.solve(rube_cube)
+
+    print(display_cube)
+    time.sleep(1)
+    for move in scramble:
+        display_cube.exe_move(move)
+        string = display_cube.__str__
+        string += "Scrambling...  " + move + " \033[H\033[J"
+        time.sleep(sleep_time)
+    
+    print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
+    print("Scrambled! Beep Boop calculating solution...")
+    print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
+    time.sleep(2)
+
+    for move in moves:
+        display_cube.exe_move(move)
+        string = display_cube.__str__
+        string += "Solving...  \nExecuted move: " + move + " \033[H\033[J"
+        time.sleep(sleep_time)
+    
+    print("")
+    print("Solved!")
 
 main()
