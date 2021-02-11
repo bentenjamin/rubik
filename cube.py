@@ -36,12 +36,16 @@ class Cube:
     # F, B, L, R, U, D
     # 0 null, 1 red, 2 orange, 3 green, 4 blue, 5 white, 6 yellow
 
+    # cube is stored in 3D array
+    # cube stores the current cube and all its changes
+    # pieces links to its piece in cube but doesnt change indexes
     cube = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
     pieces = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
 
     valid_moves = ["L", "U", "F", "D", "R", "B", "L'", "U'",
                    "F'", "D'", "R'", "B'", "L2", "U2", "F2", "D2", "R2", "B2"]
 
+    # the rotation matrix for numpy for each face
     move_config = {
         "F": [[0, 1, 2], [0, 1, 2], [2], ROT_XY_CC],
         "B": [[0, 1, 2], [0, 1, 2], [0], ROT_XY_CW],
@@ -67,6 +71,10 @@ class Cube:
         "R": [[2], [0, 1, 2], [0, 1, 2], 0],
     }
     #constructor for the cube object which stores the cubies
+    # colours are stored as a 3 character list representing xyz planes
+    # ie if you have [W, B, R] W is on the x axis
+    # N means no colour
+    # point stores the cubies position in the cube array
     def __init__(self):
         c = self.cube
         self.debug = False
@@ -77,6 +85,7 @@ class Cube:
                     colours[0] = 'G' if x == 0 else 'B' if x == 2 else 'N'
                     colours[1] = 'Y' if y == 0 else 'W' if y == 2 else 'N'
                     colours[2] = 'O' if z == 0 else 'R' if z == 2 else 'N'
+
                     point = [x, y, z]
                     self.cube[x][y][z] = Cubie(colours, point)
                     self.pieces[x][y][z] = self.cube[x][y][z]
@@ -127,6 +136,7 @@ class Cube:
         xrng, yrng, zrng, rot_matrix = move_conf
         c_i = self.get_colour_indexs([xrng, yrng, zrng])
 
+        # the indexes change from 0 to 2 to -1 to 1 for the transformation
         trans = [[[0 for z in range(3)] for y in range(3)] for x in range(3)]
         for x in xrng:
             for y in yrng:
@@ -163,19 +173,12 @@ class Cube:
         moves_list = []
         for i in range(moves):
             new_move = random.choice(self.valid_moves)
+            if len(moves_list):
+                while new_move[0] in moves_list[-1]:
+                    new_move = random.choice(self.valid_moves)
             moves_list.append(new_move)
             self.exe_move(new_move)
         return moves_list
-
-    #locates a cubie using its colours and returns its location using indices
-    def find_cubie(self, colours):
-        c = self.cube
-        for x in range(3):
-            for y in range(3):
-                for z in range(3):
-                    if (set(colours).issubset(c[x][y][z].colours)):
-                        return c[x][y][z]
-        return c[0][0][0]
 
     #checks if the cube is solved using the colours on a face
     def is_solved(self):
@@ -197,7 +200,3 @@ class Cubie:
     def __init__(self, colours, point):
         self.colours = colours
         self.point = point
-
-    # returns the coords of a cubie
-    def get_coords(self):
-        return (self.point[0], self.point[1], self.point[2])
