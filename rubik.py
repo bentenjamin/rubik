@@ -7,16 +7,12 @@ import time
 def main():
     args = sys.argv
     debug = False
-    pretty_print = False
     i = 0
     #check for -v (debug) -p (pretty print) or too many args
     if len(args) == 3:
         while i < len(args):
             if args[i] == "-v":
                 debug = True
-                if pretty_print == True:
-                    print("invalid number or type of arguments")
-                    return False
                 del args[i]
                 i = 0
             i += 1
@@ -50,6 +46,7 @@ def main():
     
     elif sys.argv[1] == "-p":
         pretty_print()
+
     #take user input for how to scramble the cube
     else:
         instructions = sys.argv[1]
@@ -109,7 +106,7 @@ def average_100(number, debug):
     print("average number of moves used over 100 runs is: {}".format(total/10))
 
 def pretty_print():
-    sleep_time = 0.5
+    sleep_time = 0.1
     rube_cube = cube.Cube()
     display_cube = cube.Cube()
     scramble = rube_cube.scramble(20)
@@ -119,8 +116,10 @@ def pretty_print():
     time.sleep(1)
     for move in scramble:
         display_cube.exe_move(move)
-        string = display_cube.__str__
-        string += "Scrambling...  " + move + " \033[H\033[J"
+        string = str(display_cube)
+        string += "\nScrambling...  " + move
+        print(" \033[H\033[J")
+        print(string)
         time.sleep(sleep_time)
     
     print("<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>")
@@ -130,8 +129,10 @@ def pretty_print():
 
     for move in moves:
         display_cube.exe_move(move)
-        string = display_cube.__str__
-        string += "Solving...  \nExecuted move: " + move + " \033[H\033[J"
+        string = str(display_cube)
+        string += "\nSolving...  \nExecuted move: " + move
+        print(" \033[H\033[J")
+        print(string)
         time.sleep(sleep_time)
     
     print("")
