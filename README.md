@@ -6,8 +6,10 @@ The algorithm used to solve the cube is the human method:
 white cross
 white corners
 middle layer
-bottom layer cross
-bottom layer corners.
+yellow cross
+yellow edges
+yellow corner location
+yellow corner orientation
 
 in order to run this project you need to:
 install a colour library: pip install string-color numpy
