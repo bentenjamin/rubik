@@ -102,22 +102,16 @@ def run_cube(cube, moves, scramble, debug):
 #function to run a bunch of random scrambles of specified length of moves 
 # 100 times and find the average amount of moves taken to solve
 def average_100(number, debug):
-    i = 0
     moves_no = []
     sln_moves = []
     demo_cube = cube.Cube()
     if debug:
         cube.debug = True
-    while i < 10:
+    for i in range(1000):
         demo_cube.scramble(int(number))
         sln_moves = solve.solve(demo_cube)
         moves_no.append(len(sln_moves))
-        i += 1 
-    i = 0 
-    total = 0
-    while i < 10:
-        total += moves_no[i]
-        i += 1
+    total = sum(sln_moves)
     print("average number of moves used over 100 runs is: {}".format(total/10))
 
 main()
